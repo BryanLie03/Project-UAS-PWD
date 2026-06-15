@@ -412,7 +412,7 @@ include "header.php";
                 </h3>
                 <div class="footer-item">
                   <i class="fa-solid fa-envelope"></i>
-                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pontianak@gys.or.id&su=Tanya%20Produk&body=Halo,%20saya%20ingin%20bertanya" target="_blank">Kirim via Gmail</a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pontianak@gys.or.id&su=Tanya%20Produk&body=Shalom,%20saya%20ingin%20bertanya" target="_blank">Kirim via Gmail</a>
                 </div>
               </div>
 
