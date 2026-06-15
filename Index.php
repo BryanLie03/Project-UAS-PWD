@@ -412,7 +412,7 @@ include "header.php";
                 </h3>
                 <div class="footer-item">
                   <i class="fa-brands fa-whatsapp"></i>
-                  <a href="https://wa.me/6289503301459" target="_blank">Whatsapp</a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pontianak@gys.or.id&su=Tanya%20Produk&body=Halo,%20saya%20ingin%20bertanya" target="_blank">Kirim via Gmail</a>
                 </div>
               </div>
 
