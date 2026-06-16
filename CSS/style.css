@@ -866,3 +866,178 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-page-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1b387a 0%, #111e3b 100%);
+    z-index: 99999; 
+    padding: 20px;
+}
+
+.main-box {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* WADAH KAPSUL TRANSPARAN LEBAR SESUAI GAMBAR BARU */
+.brand-logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; 
+    margin-bottom: 50px;
+    width: 100%;
+    
+    /* Efek kapsul kaca transparan melengkung lebar */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 18px 30px;
+    border-radius: 40px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.brand-logo-wrapper img {
+    height: 40px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-logo-wrapper h1 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #0097ce; 
+    letter-spacing: 0.5px;
+}
+
+/* Kotak Putih Utama */
+.login-container {
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 24px; /* Sudut melengkung halus sesuai gambar */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.login-header p {
+    font-size: 14px;
+    color: #718096;
+}
+
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 12px; /* Input box membulat sesuai gambar */
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #2d3748;
+}
+
+.input-group input:focus {
+    border-color: #1e295d;
+    box-shadow: 0 0 0 3px rgba(30, 41, 93, 0.15);
+}
+
+.utilities {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #4a5568;
+}
+
+.forgot-password {
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Tombol Masuk Biru Gelap Gelap */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #202b54; 
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+    background: #141c3d;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.register-link a {
+    color: #111e3b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
