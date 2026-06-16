@@ -391,6 +391,31 @@ include "header.php";
         </div>
       </section>
 
+
+      <section class="doa">
+        <h2 class="bantu">Bantu Doa</h2>
+        <p class="didoakan">Bagi anda yang ingin didoakan, anda dapat mengisi formulir yang tertera dibawah ini.</p>
+
+        <form class="doa-form">
+          <div class="input-doa">
+            <textarea placeholder="tulis doa Anda di sini" required></textarea>
+            <iconify-icon class="icon-input" icon="fa6-solid:hands-praying"></iconify-icon>
+          </div>
+
+          <div class="input-tanggal">
+            <input type="text" placeholder="dd/mm/yyyy" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')" required>
+            <iconify-icon class="icon-input" icon="fa6-solid:calendar-days"></iconify-icon>
+          </div>
+
+          <div class="button">
+            <button type="submit" class="btn-kirim">Kirim
+                <iconify-icon class="icon-button" icon="fa6-solid:arrow-right"></iconify-icon>
+            </button>
+          </div>
+        </form>
+      </section>
+
+
       <footer class="footer">
         <div class="bukit">
             <img src="Assets/img/Bukit.png" alt="bukit">
@@ -412,7 +437,7 @@ include "header.php";
                 </h3>
                 <div class="footer-item">
                   <i class="fa-solid fa-envelope"></i>
-                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pontianak@gys.or.id&su=Tanya%20Produk&body=Shalom,%20saya%20ingin%20bertanya" target="_blank">Kirim via Gmail</a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=pontianak@gys.or.id&su=Tanya%20Produk&body=Shalom,%20saya%20ingin%20bertanya" target="_blank">Hubungi Kami</a>
                 </div>
               </div>
 
