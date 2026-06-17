@@ -110,6 +110,7 @@ html {
   display: flex;
   list-style: none; /* Menghilangkan bullet point dari list */
   gap: 25px;
+  align-items: center;
 }
 
 .nav-links a {
@@ -137,11 +138,55 @@ html {
   width: 100%;
 }
 
+.nav-links .btn-login {
+  background-color: var(--primary-color);
+  padding: 8px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  border: 2px solid transparent;
+  display: inline-block;
+}
+
+
+.nav-links .btn-login::after {
+  display: none; 
+}
+
+
+.nav-links .btn-login:hover {
+  background-color: transparent;
+  color: var(--white-color);
+  border: 2px solid var(--white-color);
+  transform: translateY(-2px);
+}
+
 .hero {
   height: 100vh;
   background: url("../Assets/img/gereja.jpeg") no-repeat center center/cover;
   width: 100%;
   position: relative;
+}
+
+.btn-hero {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 18px 45px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: all 0.6s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+}
+
+.btn-hero:hover {
+  background-color: transparent;
+  color: var(--white-color);
+  border: 2px solid var(--white-color);
+  transform: translateY(-5px);
 }
 
 .hero-overlay {
@@ -180,6 +225,17 @@ html {
 .welcome-section {
   padding: 130px 115px;
   background-color: var(--white-color);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 .container {
@@ -344,6 +400,13 @@ html {
   height: auto;
   min-height: 750px;
   scroll-snap-align: start; /* Memastikan card berada di posisi yang benar */
+  transition: all 0.3s ease;
+}
+
+.box-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  z-index: 2;
 }
 
 .card-text {
@@ -1146,3 +1209,112 @@ text-align: center;
     text-decoration: underline;
 }
 
+@media (max-width: 992px) {
+  .welcome-flex {
+    flex-direction: column; 
+  }
+  
+  .blue-frame {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  .blue-frame::before {
+    bottom: -25px;
+    left: -25px;
+  }
+}
+
+@media (max-width: 992px) {
+
+  .welcome-flex,
+  .youtube-container,
+  .lokasi-content,
+  .image-kegiatan, 
+  .image-kegiatan.reverse {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  
+ 
+  .blue-frame {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .blue-frame::before {
+    bottom: -20px;
+    left: -20px;
+  }
+
+
+  .jadwal-flex {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+
+  .video-youtube {
+    justify-content: center;
+    width: 100%;
+  }
+
+
+  .image-kegiatan.reverse .text-kegiatan h3,
+  .image-kegiatan.reverse .text-kegiatan p {
+    text-align: center;
+  }
+  .kegiatan img {
+    width: 100%;
+    height: auto;
+  }
+
+ 
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+  }
+  .footer-link {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .footer-logo img {
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .hero h1 {
+    font-size: 60px;
+    line-height: 80px;
+  }
+  .hero p {
+    font-size: 20px;
+    line-height: 30px;
+  }
+  
+  .welcome-section h2, 
+  .kepercayaan h2, 
+  .sejarah h2, 
+  .kegiatan h2, 
+  .jadwal h2, 
+  .lokasi-title {
+    font-size: 50px;
+    line-height: 1.2;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .navbar {
+    padding: 15px 30px;
+  }
+  
+
+  .nav-links {
+    display: none; 
+  }
+}

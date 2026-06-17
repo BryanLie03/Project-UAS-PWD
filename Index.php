@@ -10,6 +10,7 @@ include "header.php";
             Tempat bertumbuh dalam Kristus, mengalami kasih Tuhan, dan berjalan
             bersama dalam kebenaran
           </p>
+          <a href="#jadwal-ibadah" class="btn-hero animasi-muncul">Lihat Jadwal Ibadah</a>
         </div>
       </section>
 
@@ -18,9 +19,10 @@ include "header.php";
           <h2 class="animasi-muncul">Selamat datang di Gereja Yesus Sejati</h2>
           <div class="welcome-flex">
             <div class="blue-frame animasi-muncul">
-              <div class="welcome-image">
+              <figure class="welcome-image" style="margin: 0;">
                 <img src="Assets/img/jemaat1.jpeg" alt="Foto Jemaat" />
-              </div>
+                <figcaption class="sr-only">Foto Jemaat Gereja Yesus Sejati Pontianak sedang beribadah</figcaption>
+              </figure>
             </div>
             <div class="text-wrapper animasi-muncul">
               <p><strong>Salam damai sejahtera bagi kita semua.</strong></p>
@@ -42,7 +44,8 @@ include "header.php";
           
           <div class="slider-wrapper animasi-muncul">
             
-            <button id="btn-left" class="slider-btn"> <i class="fa-solid fa-chevron-left"></i>
+            <button id="btn-left" class="slider-btn" aria-label="Geser Kiri"> 
+              <i class="fa-solid fa-chevron-left"></i>
             </button>
 
             <div class="card-grid" id="slider-track">
@@ -129,7 +132,8 @@ include "header.php";
 
             </div>
 
-            <button id="btn-right" class="slider-btn"> <i class="fa-solid fa-chevron-right"></i>
+            <button id="btn-right" class="slider-btn" aria-label="Geser Kanan"> 
+              <i class="fa-solid fa-chevron-right"></i>
             </button>
 
           </div> 

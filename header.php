@@ -26,7 +26,7 @@ include "koneksi.php";
           <li><a href="#dasar-kepercayaan">Dasar Kepercayaan</a></li>
           <li><a href="#sejarah">Sejarah GYS Pontianak</a></li>
           <li><a href="#kegiatan">Kegiatan</a></li>
-          <li><a href="#jadwal-ibadah">Jadwal Ibadah</a></li>
+          <li><a href="login.php" class="btn-login">Login</a></li>
         </ul>
       </nav>
     </header>
