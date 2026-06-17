@@ -51,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="login-page-wrapper">
     <div class="main-box">
             <div class="brand-logo-wrapper">
-            <img src="Assets/img/Logo.png" alt="Logo">
-        </div>
+            <img src="Assets/img/Logo-scrolled.png" alt="Logo">
+            </div>
         <div class="login-container">
                 <div class="login-header">
                     <h2>Selamat Datang</h2>

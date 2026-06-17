@@ -867,6 +867,107 @@ html {
   transform: translateY(0);
 }
 
+.doa {
+width: 700px;
+min-height: 900px;
+margin: 130px auto;
+padding: 50px 50px;
+background: linear-gradient(135deg,#4675dd 0%,#003da5 100%);
+border-radius: 55px;
+box-shadow: -12px 12px 0 rgba(0, 0, 0, 0.15);
+text-align: center;
+}
+
+.doa h2 {
+  color: white;
+  font-size: 70px;
+  font-weight: 700;
+  margin: 50px 0;
+}
+
+.doa p {
+  width: 70%;
+  margin: 0 auto 60px;
+  color: white;
+  font-size: 25px;
+  line-height: 1.5;
+}
+
+.doa-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.input-doa,
+.input-tanggal {
+  position: relative;
+  width: 80%;
+}
+
+.input-doa textarea {
+  width: 100%;
+  height: 150px;
+  padding: 15px 50px 15px 15px;
+  border: none;
+  border-radius: 20px;
+  resize: none;
+  font-size: 20px;
+  font-family: var(--main-font);
+}
+
+.input-tanggal input {
+  width: 100%;
+  height: 50px;
+  padding: 15px 50px 15px 15px;
+  border: none;
+  border-radius: 25px;
+  font-size: 20px;
+  font-family: var(--main-font);
+}
+
+.icon-input {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: #666;
+}
+
+.input-doa .icon-input {
+  top: 18px;
+  transform: none;
+}
+
+.btn-kirim {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  background: var(--light-gray-color);
+  color: var(--dark-color);
+  font-size: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn-kirim:hover {
+  background: var(--white-color);
+  color: var(--primary-color);
+
+}
+
+.icon-button {
+  font-size: 18px;
+}
+
+
 /*login*/
 * {
     margin: 0;
@@ -898,6 +999,16 @@ html {
 }
 
 .brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: -25px; 
+    margin-bottom: 35px; 
+    background: transparent;
+}
+
+.brand-logo-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1035,103 +1146,3 @@ html {
     text-decoration: underline;
 }
 
-.doa {
-width: 650px;
-min-height: 800px;
-margin: 50px auto;
-padding: 50px 0;
-background: linear-gradient(135deg,#4675dd 0%,#003da5 100%);
-border-radius: 40px;
-box-shadow: -12px 12px 0 rgba(0, 0, 0, 0.15);
-text-align: center;
-}
-
-.bantu {
-  color: white;
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.didoakan {
-  width: 70%;
-  margin: 0 auto 35px;
-  color: white;
-  font-size: 1.4rem;
-  line-height: 1.5;
-}
-
-.doa-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.input-doa,
-.input-tanggal {
-  position: relative;
-  width: 70%;
-}
-
-.input-doa textarea {
-  width: 100%;
-  height: 120px;
-  padding: 15px 50px 15px 15px;
-  border: none;
-  border-radius: 15px;
-  resize: none;
-  font-size: 16px;
-  font-family: inherit;
-}
-
-.input-tanggal input {
-  width: 100%;
-  height: 45px;
-  padding: 0 50px 0 15px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  font-family: inherit;
-}
-
-.icon-input {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  color: #666;
-}
-
-.input-doa .icon-input {
-  top: 18px;
-  transform: none;
-}
-
-.btn-kirim {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 30px;
-  background: white;
-  color: #1d4fb9;
-  font-size: 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s ease;
-  margin-top: 20px;
-}
-
-.btn-kirim:hover {
-  transform: scale(1.05);
-}
-
-.icon-button {
-  font-size: 18px;
-}
-
-
-    

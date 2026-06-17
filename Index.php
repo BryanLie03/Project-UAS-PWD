@@ -393,8 +393,8 @@ include "header.php";
 
 
       <section class="doa">
-        <h2 class="bantu">Bantu Doa</h2>
-        <p class="didoakan">Bagi anda yang ingin didoakan, anda dapat mengisi formulir yang tertera dibawah ini.</p>
+        <h2>Bantu Doa</h2>
+        <p>Bagi anda yang ingin didoakan, anda dapat mengisi formulir yang tertera dibawah ini.</p>
 
         <form class="doa-form">
           <div class="input-doa">
@@ -411,7 +411,7 @@ include "header.php";
             <button type="submit" class="btn-kirim">Kirim
                 <iconify-icon class="icon-button" icon="fa6-solid:arrow-right"></iconify-icon>
             </button>
-          </div>
+          </div> 
         </form>
       </section>
 
