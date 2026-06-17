@@ -10,7 +10,9 @@ include "header.php";
             Tempat bertumbuh dalam Kristus, mengalami kasih Tuhan, dan berjalan
             bersama dalam kebenaran
           </p>
-          <a href="#jadwal-ibadah" class="btn-hero animasi-muncul">Lihat Jadwal Ibadah</a>
+          <div class="animasi-muncul">
+            <a href="#jadwal" class="btn-hero">Lihat Jadwal Ibadah</a>
+          </div>
         </div>
       </section>
 
@@ -395,28 +397,35 @@ include "header.php";
         </div>
       </section>
 
-
-      <section class="doa">
-        <h2>Bantu Doa</h2>
-        <p>Bagi anda yang ingin didoakan, anda dapat mengisi formulir yang tertera dibawah ini.</p>
-
-        <form class="doa-form">
-          <div class="input-doa">
-            <textarea placeholder="tulis doa Anda di sini" required></textarea>
-            <iconify-icon class="icon-input" icon="fa6-solid:hands-praying"></iconify-icon>
+      <section class="doa" id="doa">
+        <div class="doa-container animasi-muncul">
+          <div class="doa-header">
+            <iconify-icon icon="fa6-solid:hands-praying" class="doa-icon"></iconify-icon>
+            <h2>Permohonan Doa</h2>
+            <p>Mari kita saling mendoakan. Sampaikan pokok doa Anda di bawah ini.</p>
           </div>
+          
+          <form id="doa-form" class="doa-form" novalidate>
+            <div class="input-group">
+              <label for="nama">Nama (Opsional)</label>
+              <input type="text" id="nama" placeholder="Masukkan nama Anda..." />
+            </div>
 
-          <div class="input-tanggal">
-            <input type="text" placeholder="dd/mm/yyyy" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')" required>
-            <iconify-icon class="icon-input" icon="fa6-solid:calendar-days"></iconify-icon>
-          </div>
+            <div class="input-group">
+              <label for="tanggal">Tanggal</label>
+              <input type="date" id="tanggal" required />
+              <span class="error-msg" id="error-tanggal">Tanggal tidak boleh kosong!</span>
+            </div>
 
-          <div class="button">
-            <button type="submit" class="btn-kirim">Kirim
-                <iconify-icon class="icon-button" icon="fa6-solid:arrow-right"></iconify-icon>
-            </button>
-          </div> 
-        </form>
+            <div class="input-group">
+              <label for="isi-doa">Pokok Doa</label>
+              <textarea id="isi-doa" rows="5" placeholder="Tuliskan pergumulan atau permohonan doa Anda secara detail di sini..." required></textarea>
+              <span class="error-msg" id="error-doa">Pokok doa tidak boleh kosong!</span>
+            </div>
+
+            <button type="submit" id="btn-submit-doa" class="btn-doa" disabled>Kirim Doa</button>
+          </form>
+        </div>
       </section>
 
 
