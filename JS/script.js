@@ -169,15 +169,14 @@ const inputDoa = document.getElementById("isi-doa");
 const btnSubmitDoa = document.getElementById("btn-submit-doa");
 
 if (formDoa) {
-  function cekFormDoa() {
 
+  function cekFormDoa() {
     if (inputTanggal.value !== "" && inputDoa.value.trim() !== "") {
-      btnSubmitDoa.removeAttribute("disabled"); // Menyalakan tombol
+      btnSubmitDoa.removeAttribute("disabled");
     } else {
       btnSubmitDoa.setAttribute("disabled", "true");
     }
 
- 
     if (inputTanggal.value !== "") {
       inputTanggal.parentElement.classList.remove("invalid");
     }
@@ -186,10 +185,8 @@ if (formDoa) {
     }
   }
 
-
   inputTanggal.addEventListener("input", cekFormDoa);
   inputDoa.addEventListener("input", cekFormDoa);
-
 
   formDoa.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -206,11 +203,13 @@ if (formDoa) {
       isValid = false;
     }
 
-    // Jika semua beres, kirim doa
     if (isValid) {
       alert("Terima kasih! Permohonan doa Anda telah kami terima.");
-      formDoa.reset(); 
-      cekFormDoa(); 
+      formDoa.reset();
+      btnSubmitDoa.setAttribute("disabled", "true");
     }
   });
 }
+
+
+
