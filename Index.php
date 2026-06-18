@@ -396,38 +396,34 @@ include "header.php";
           </div>
         </div>
       </section>
-
+      
       <section class="doa" id="doa">
-        <div class="doa-container animasi-muncul">
-          <div class="doa-header">
-            <iconify-icon icon="fa6-solid:hands-praying" class="doa-icon"></iconify-icon>
-            <h2>Permohonan Doa</h2>
-            <p>Mari kita saling mendoakan. Sampaikan pokok doa Anda di bawah ini.</p>
+          <div class="doa-container animasi-muncul">
+              
+              <div class="doa-header">
+                  <i class="fa-solid fa-hands-praying doa-icon"></i>
+                  <h2>Permohonan Doa</h2>
+                  <p>Mari kita saling mendoakan. Sampaikan pokok doa Anda di bawah ini.</p>
+              </div>
+
+              <form id="doa-form" class="doa-form" novalidate>
+                  <div class="input-group">
+                      <label for="tanggal">Tanggal</label>
+                      <input type="date" id="tanggal" required />
+                      <span class="error-msg" id="error-tanggal">Tanggal tidak boleh kosong!</span>
+                  </div>
+
+                  <div class="input-group">
+                      <label for="isi-doa">Pokok Doa</label>
+                      <textarea id="isi-doa" rows="5" placeholder="Tuliskan pokok doa Anda di sini..." required></textarea>
+                      <span class="error-msg" id="error-doa">Pokok doa tidak boleh kosong!</span>
+                  </div>
+
+                  <button type="submit" id="btn-submit-doa" class="btn-doa" disabled>Kirim Doa</button>
+              </form>
+              
           </div>
-          
-          <form id="doa-form" class="doa-form" novalidate>
-            <div class="input-group">
-              <label for="nama">Nama (Opsional)</label>
-              <input type="text" id="nama" placeholder="Masukkan nama Anda..." />
-            </div>
-
-            <div class="input-group">
-              <label for="tanggal">Tanggal</label>
-              <input type="date" id="tanggal" required />
-              <span class="error-msg" id="error-tanggal">Tanggal tidak boleh kosong!</span>
-            </div>
-
-            <div class="input-group">
-              <label for="isi-doa">Pokok Doa</label>
-              <textarea id="isi-doa" rows="5" placeholder="Tuliskan pergumulan atau permohonan doa Anda secara detail di sini..." required></textarea>
-              <span class="error-msg" id="error-doa">Pokok doa tidak boleh kosong!</span>
-            </div>
-
-            <button type="submit" id="btn-submit-doa" class="btn-doa" disabled>Kirim Doa</button>
-          </form>
-        </div>
       </section>
-
 
       <footer class="footer">
         <div class="bukit">
