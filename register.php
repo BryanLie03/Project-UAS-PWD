@@ -14,6 +14,7 @@ $pesan_error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username_input = mysqli_real_escape_string($conn, $_POST['username']);
     $password_input = mysqli_real_escape_string($conn, $_POST['password']);
+    $nama_input = mysqli_real_escape_string($conn, $_POST['nama']);
 
     $query = "SELECT * FROM user WHERE username='$username_input' OR email='$username_input'";
     $result = mysqli_query($conn, $query);
@@ -42,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Login - Gereja Yesus Sejati</title>
+    <title>Halaman Register - Gereja Yesus Sejati</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="login-container">
                 <div class="login-header">
                     <h2>Selamat Datang</h2>
-                    <p>Silakan masuk ke akun Anda</p>
+                    <p>Silakan daftar untuk membuat akun Anda</p>
                 </div>
 
                 <?php if (!empty($pesan_error)) : ?>
@@ -69,24 +70,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label-login for="email">Email</label-login>
                         <input type="text" id="email" name="email" placeholder="Masukkan email" required>
                     </div>
+                    
+                    <div class="input-group">
+                        <label-login for="phone">Nomor Telepon</label-login>
+                        <input type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label-login for="nama">Nama Lengkap</label-login>
+                        <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
+                    </div>
 
                     <div class="input-group">
                         <label-login for="password">Kata Sandi</label-login>
                         <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
                     </div>
 
-                    <div class="utilities">
-                        <label-login class="remember-me">
-                            <input type="checkbox" name="remember"> Ingat saya
-                        </label-login>
-                        <a href="#" class="forgot-password">Lupa Password?</a>
-                    </div>
-
-                    <button type="submit" class="login-btn">Masuk</button>
+                    <button type="submit" class="login-btn">Daftar</button>
                 </form>
 
                 <div class="register-link">
-                    Belum punya akun? <a href="register.php">Daftar sekarang</a>
+                    Sudah punya akun? <a href="login.php">Masuk sekarang</a>
                 </div>
             </div>
 

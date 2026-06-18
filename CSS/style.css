@@ -150,6 +150,7 @@ html {
   font-weight: 600;
   border: 2px solid transparent;
   display: inline-block;
+  margin-left: 25px;
 }
 
 .nav-links .btn-login::after {
@@ -360,7 +361,7 @@ html {
 }
 
 .slider-btn:hover {
-  background-color: var(--primary-color-dark);
+  background-color: var(--dark-text-color);
   transform: translateY(-50%) scale(1.1); /* Memperbesar tombol saat dihover */
 }
 
@@ -961,7 +962,7 @@ html {
 
 .doa { 
   padding: 100px 115px; 
-  background-color: #fafafa; 
+  background-color: var(--white-color); 
   display: flex; 
   justify-content: center
 }
@@ -1025,7 +1026,9 @@ html {
   background-color: #ffffff;
   color: var(--dark-text-color);
   transition: all 0.3s ease;
+  resize: none;
 }
+
 
 .doa-form input:focus, 
 .doa-form textarea:focus { 
@@ -1089,12 +1092,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /*login*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
 
 .login-page-wrapper {
   position: fixed;
@@ -1105,7 +1102,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #020617 100%);
+  background: linear-gradient(to bottom, var(--dark-text-color), var(--primary-color)); 
   z-index: 99999;
   padding: 20px;
 }
@@ -1182,10 +1179,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-bottom: 20px;
 }
 
-.input-group label {
+.input-group label-login {
   display: block;
   font-size: 14px;
-  color: var(--white-color);
+  color: var(--primary-color);
   margin-bottom: 8px;
   font-weight: 500;
 }

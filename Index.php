@@ -11,7 +11,7 @@ include "header.php";
             bersama dalam kebenaran
           </p>
           <div class="animasi-muncul">
-            <a href="#jadwal" class="btn-hero">Lihat Jadwal Ibadah</a>
+            <a href="#jadwal-ibadah" class="btn-hero">Lihat Jadwal Ibadah</a>
           </div>
         </div>
       </section>

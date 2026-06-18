@@ -17,7 +17,7 @@ include "koneksi.php";
   <body>
     <header>
       <nav class="navbar">
-        <a href="Gereja-Yesus-Sejati-Pontianak.html"> <div class="logo">
+        <a href="index.php"> <div class="logo">
             <img src="Assets/img/Logo.png" alt="Logo" class="logo-awal" />
             <img src="Assets/img/Logo-scrolled.png" alt="Logo" class="logo-scrolled" />
           </div>
@@ -26,6 +26,7 @@ include "koneksi.php";
           <li><a href="#dasar-kepercayaan">Dasar Kepercayaan</a></li>
           <li><a href="#sejarah">Sejarah GYS Pontianak</a></li>
           <li><a href="#kegiatan">Kegiatan</a></li>
+          <li><a href="#Galeri">Galeri</a></li>
           <li><a href="login.php" class="btn-login">Login</a></li>
         </ul>
       </nav>
