@@ -1355,6 +1355,114 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     display: block;
 }
 
+/* css bagian galeri */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: var(--main-font);
+}
+
+.hero-galeri{
+    height: 100vh;
+    background:#0d36b3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hero-galeri h1{
+    color:white;
+    font-size:50px;
+    font-weight:bold;
+}
+
+.galeri-container{
+    width:80%;
+    max-width:1200px;
+    margin:40px auto;
+}
+
+.breadcrumb{
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.breadcrumb a{
+    text-decoration:none;
+    color:#666;
+}
+
+.breadcrumb a:hover{
+    color:#0d36b3;
+}
+
+.breadcrumb .active{
+    font-weight:bold;
+    color:black;
+}
+
+.filter{
+    display:flex;
+    justify-content:center;
+    margin-bottom:40px;
+}
+
+.filter select{
+    width:300px;
+    padding: 20px 20px;
+    border:none;
+    border-radius:25px;
+    background:#0d36b3;
+    color:white;
+    cursor:pointer;
+    font-size: 15px; 
+    font-weight: 500;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 25px center; 
+    background-size: 20px;
+}
+
+
+.galeri-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:40px;
+    justify-content:center;
+}
+
+.card{
+    width:100%;
+    max-width:500px;
+    margin:auto;
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+    display:block;
+}
+
+.card h3{
+    padding:15px;
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+}
+
 @media (max-width: 992px) {
   .welcome-flex {
     flex-direction: column;
