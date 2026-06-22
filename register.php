@@ -1,42 +1,5 @@
 <?php
-session_start();
-
-if (isset($_SESSION['status']) && $_SESSION['status'] == "login") {
-    header("location:index.php");
-    exit();
-}
-
-include "koneksi.php";
-include "header.php";
-
-$pesan_error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username_input = mysqli_real_escape_string($conn, $_POST['username']);
-    $password_input = mysqli_real_escape_string($conn, $_POST['password']);
-    $nama_input = mysqli_real_escape_string($conn, $_POST['nama']);
-
-    $query = "SELECT * FROM user WHERE username='$username_input' OR email='$username_input'";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) === 1) {
-        $data_user = mysqli_fetch_assoc($result);
-
-        if (password_verify($password_input, $data_user['password'])) {
-            $_SESSION['id_user']  = $data_user['id_user'];
-            $_SESSION['username'] = $data_user['username'];
-            $_SESSION['nama']     = $data_user['nama']; 
-            $_SESSION['status']   = "login";
-
-            header("location:index.php");
-            exit();
-        } else {
-            $pesan_error = "Kata sandi yang Anda masukkan salah.";
-        }
-    } else {
-        $pesan_error = "Username atau Email tidak ditemukan.";
-    }
-}
+include "security.php";
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -44,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Register - Gereja Yesus Sejati</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 
@@ -59,30 +22,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Silakan daftar untuk membuat akun Anda</p>
                 </div>
 
-                <?php if (!empty($pesan_error)) : ?>
-                    <div style="background-color: #ffeeed; color: #d9534f; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; border: 1px solid #f5c6cb; text-align: center;">
-                        <?php echo $pesan_error; ?>
-                    </div>
-                <?php endif; ?>
+                <?php 
+                if (isset($_GET['error'])) {
+                    $pesan_error = "";
+                    if ($_GET['error'] == 'email_terdaftar') {
+                        $pesan_error = "Alamat email ini sudah terdaftar.";
+                    } else if ($_GET['error'] == 'sistem') {
+                        $pesan_error = "Terjadi kesalahan pada sistem server.";
+                    }
 
-                <form action="" method="POST">
+                    echo '<div style="background-color: #ffeeed; color: #d9534f; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; border: 1px solid #f5c6cb; text-align: center;">';
+                    echo $pesan_error;
+                    echo '</div>';
+                }
+                ?>
+
+                <form action="sv_register.php" method="POST">
                     <div class="input-group">
-                        <label-login for="email">Email</label-login>
-                        <input type="text" id="email" name="email" placeholder="Masukkan email" required>
+                        <label class="label-login" for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Masukkan email" required>
                     </div>
                     
                     <div class="input-group">
-                        <label-login for="phone">Nomor Telepon</label-login>
-                        <input type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
+                        <label class="label-login" for="phone">Nomor Telepon</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
                     </div>
 
                     <div class="input-group">
-                        <label-login for="nama">Nama Lengkap</label-login>
+                        <label class="label-login" for="nama">Nama Lengkap</label>
                         <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
                     </div>
 
                     <div class="input-group">
-                        <label-login for="password">Kata Sandi</label-login>
+                        <label class="label-login" for="password">Kata Sandi</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
                     </div>
 
@@ -93,9 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Sudah punya akun? <a href="login.php">Masuk sekarang</a>
                 </div>
             </div>
-
         </div>
     </div>
-
 </body>
 </html>

@@ -1,41 +1,5 @@
 <?php
-session_start();
-
-if (isset($_SESSION['status']) && $_SESSION['status'] == "login") {
-    header("location:index.php");
-    exit();
-}
-
-include "koneksi.php";
-include "header.php";
-
-$pesan_error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username_input = mysqli_real_escape_string($conn, $_POST['username']);
-    $password_input = mysqli_real_escape_string($conn, $_POST['password']);
-
-    $query = "SELECT * FROM user WHERE username='$username_input' OR email='$username_input'";
-    $result = mysqli_query($conn, $query);
-
-    if (mysqli_num_rows($result) === 1) {
-        $data_user = mysqli_fetch_assoc($result);
-
-        if (password_verify($password_input, $data_user['password'])) {
-            $_SESSION['id_user']  = $data_user['id_user'];
-            $_SESSION['username'] = $data_user['username'];
-            $_SESSION['nama']     = $data_user['nama']; 
-            $_SESSION['status']   = "login";
-
-            header("location:index.php");
-            exit();
-        } else {
-            $pesan_error = "Kata sandi yang Anda masukkan salah.";
-        }
-    } else {
-        $pesan_error = "Username atau Email tidak ditemukan.";
-    }
-}
+include "security.php";
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -43,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Login - Gereja Yesus Sejati</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="CSS/style.css"> 
 </head>
 <body>
 
@@ -58,28 +22,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Silakan masuk ke akun Anda</p>
                 </div>
 
-                <?php if (!empty($pesan_error)) : ?>
+                <?php if (isset($_GET['error']) && $_GET['error'] == 'salah') : ?>
                     <div style="background-color: #ffeeed; color: #d9534f; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; border: 1px solid #f5c6cb; text-align: center;">
-                        <?php echo $pesan_error; ?>
+                        Email atau kata sandi salah.
                     </div>
                 <?php endif; ?>
 
-                <form action="" method="POST">
+                <?php if(isset($_GET['pesan']) && $_GET['pesan'] == 'berhasil'): ?>
+                    <div style="background-color: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; border: 1px solid #c8e6c9; text-align: center;">
+                        Pendaftaran berhasil! Silakan login.
+                    </div>
+                <?php endif; ?>
+
+                <form action="sv_login.php" method="POST">
                     <div class="input-group">
-                        <label-login for="email">Email</label-login>
-                        <input type="text" id="email" name="email" placeholder="Masukkan email" required>
+                        <label class="label-login" for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Masukkan email" required>
                     </div>
 
                     <div class="input-group">
-                        <label-login for="password">Kata Sandi</label-login>
+                        <label class="label-login" for="password">Kata Sandi</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
-                    </div>
-
-                    <div class="utilities">
-                        <label-login class="remember-me">
-                            <input type="checkbox" name="remember"> Ingat saya
-                        </label-login>
-                        <a href="#" class="forgot-password">Lupa Password?</a>
                     </div>
 
                     <button type="submit" class="login-btn">Masuk</button>
@@ -89,9 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Belum punya akun? <a href="register.php">Daftar sekarang</a>
                 </div>
             </div>
-
         </div>
     </div>
-
 </body>
 </html>

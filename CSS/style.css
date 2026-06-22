@@ -1263,6 +1263,70 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   text-decoration: underline;
 }
 
+/* --- CSS UNTUK DROPDOWN PROFILE --- */
+
+/* Wrapper utama dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tampilan tombol yang berisi foto dan nama */
+.profile-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-family: inherit; /* Menyesuaikan dengan font Poppins Anda */
+    color: #333; /* Sesuaikan dengan warna teks header Anda */
+}
+
+/* Tampilan foto/icon profil yang bulat */
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #0056b3; /* Beri garis batas agar lebih rapi */
+}
+
+/* Kotak menu logout yang disembunyikan secara default */
+.dropdown-content {
+    display: none; /* Sembunyikan menu awalnya */
+    position: absolute;
+    right: 0;
+    top: 50px; /* Jarak menu dari atas */
+    background-color: #ffffff;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 999;
+    overflow: hidden;
+}
+
+/* Desain link di dalam dropdown (tombol Logout) */
+.dropdown-content a {
+    color: #d9534f; /* Warna merah untuk tombol logout */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Efek saat tombol logout disorot mouse */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* LOGIKA MENAMPILKAN DROPDOWN (Muncul saat mouse diarahkan ke area profil) */
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
 @media (max-width: 992px) {
   .welcome-flex {
     flex-direction: column;

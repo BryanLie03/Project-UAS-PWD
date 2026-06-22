@@ -1,4 +1,6 @@
 <?php
+// Pastikan file yang memanggil header ini (seperti index.php) 
+// sudah menjalankan session_start(); di baris paling atasnya.
 include "koneksi.php";
 ?>
 
@@ -17,7 +19,8 @@ include "koneksi.php";
   <body>
     <header>
       <nav class="navbar">
-        <a href="index.php"> <div class="logo">
+        <a href="index.php"> 
+          <div class="logo">
             <img src="Assets/img/Logo.png" alt="Logo" class="logo-awal" />
             <img src="Assets/img/Logo-scrolled.png" alt="Logo" class="logo-scrolled" />
           </div>
@@ -27,8 +30,25 @@ include "koneksi.php";
           <li><a href="#sejarah">Sejarah GYS Pontianak</a></li>
           <li><a href="#kegiatan">Kegiatan</a></li>
           <li><a href="#Galeri">Galeri</a></li>
-          <li><a href="login.php" class="btn-login">Login</a></li>
+
+          <li class="nav-right"> 
+            <?php if (isset($_SESSION['status']) && $_SESSION['status'] == "login") : ?>
+                <div class="profile-dropdown">
+                    <button class="profile-btn">
+                        <img src="Assets/img/jemaat1.jpeg" alt="Icon" class="profile-icon">
+                        <span class="profile-name"><?php echo $_SESSION['full_name']; ?> ▼</span>
+                    </button>
+                    
+                    <div class="dropdown-content">
+                        <a href="admin/logout.php">Logout</a>
+                    </div>
+                </div>
+
+            <?php else : ?>
+                <a href="login.php" class="btn-login">Login</a>
+            <?php endif; ?>
+          </li>
+
         </ul>
       </nav>
     </header>
-    
