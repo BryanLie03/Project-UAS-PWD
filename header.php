@@ -9,7 +9,7 @@ include "koneksi.php";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gereja Yesus Sejati Pontianak</title>
-    <link rel="stylesheet" href="CSS/style.css" /> 
+    <link rel="stylesheet" href="CSS/style.css?v=<?php echo time(); ?>" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script> 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
@@ -50,7 +50,7 @@ include "koneksi.php";
             </button>
             
             <div class="dropdown-content">
-                <a href="admin/logout.php">Logout</a>
+                <a href="/Project-UAS-PWD-e4b6dbffe6bdfe3e846bf26daaeab717addab7a9/admin/logout.php">Logout</a>
             </div>
         </div>
     <?php else : ?>
