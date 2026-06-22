@@ -2,37 +2,35 @@
 session_start();
 include "koneksi.php";
 
-// Pastikan request berasal dari form POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // Keamanan: Mencegah SQL Injection
-    $email_input = mysqli_real_escape_string($conn, $_POST['email']);
-    $password_input = md5($_POST['password']); // Password di-MD5
+    $email = $_POST['email'];
+    // Hash password menggunakan MD5 sesuai permintaan Anda
+    $password_input = md5($_POST['password']); 
 
-    // Mencari data di database
-    $query = "SELECT * FROM users WHERE email='$email_input' AND password='$password_input'";
-    $result = mysqli_query($conn, $query);
+    // Menggunakan Prepared Statement untuk mencegah SQL Injection
+    // Kita mencari email dan password sekaligus di database
+    $stmt = $conn->prepare("SELECT id_user, full_name, role FROM users WHERE email = ? AND password = ?");
+    $stmt->bind_param("ss", $email, $password_input);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Jika data cocok
-    if (mysqli_num_rows($result) === 1) {
-        $data_user = mysqli_fetch_assoc($result);
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
 
         // Buat Sesi
-        $_SESSION['id_user']   = $data_user['id_user'];
-        $_SESSION['full_name'] = $data_user['full_name'];
-        $_SESSION['role']      = $data_user['role'];
+        $_SESSION['id_user']   = $user['id_user'];
+        $_SESSION['full_name'] = $user['full_name'];
+        $_SESSION['role']      = $user['role'];
         $_SESSION['status']    = "login";
 
-        // Arahkan ke halaman utama/dashboard
         header("location:index.php");
         exit();
     } else {
-        // Jika salah, kembalikan ke halaman login dan kirim pesan error lewat URL
+        // Jika email atau password salah
         header("location:login.php?error=salah");
         exit();
     }
 } else {
-    // Jika ada yang mencoba buka file ini secara langsung tanpa lewat form
     header("location:login.php");
     exit();
 }

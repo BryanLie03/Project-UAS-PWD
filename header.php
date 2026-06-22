@@ -28,7 +28,7 @@ include "koneksi.php";
           <li><a href="#dasar-kepercayaan">Dasar Kepercayaan</a></li>
           <li><a href="#sejarah">Sejarah GYS Pontianak</a></li>
           <li><a href="#kegiatan">Kegiatan</a></li>
-          <li><a href="#Galeri">Galeri</a></li>
+          <li><a href="gallery.php">Galeri</a></li>
           
           <li class="nav-right"> 
               <?php if (isset($_SESSION['status']) && $_SESSION['status'] == "login") : ?>
@@ -50,7 +50,7 @@ include "koneksi.php";
             </button>
             
             <div class="dropdown-content">
-                <a href="/Project-UAS-PWD-e4b6dbffe6bdfe3e846bf26daaeab717addab7a9/admin/logout.php">Logout</a>
+                <a href="admin/logout.php">Logout</a>
             </div>
         </div>
     <?php else : ?>

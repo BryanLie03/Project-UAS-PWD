@@ -44,16 +44,16 @@ include "security.php";
                     </div>
                     
                     <div class="input-group">
-                        <label class="label-login" for="phone">Nomor Telepon</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
-                    </div>
-
-                    <div class="input-group">
                         <label class="label-login" for="nama">Nama Lengkap</label>
                         <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
                     </div>
 
                     <div class="input-group">
+                        <label class="label-login" for="phone">Nomor Telepon</label>
+                        <input type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
+                    </div>
+
+                    <div class="input-group"> 
                         <label class="label-login" for="password">Kata Sandi</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
                     </div>

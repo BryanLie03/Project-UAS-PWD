@@ -53,5 +53,9 @@ include "header.php";
         </div>
     </div>
 </section>
-<script src="JS/script.js" defer></script>
 </body>
+
+      <?php 
+  include "footer.php"; 
+?>
+

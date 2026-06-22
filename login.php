@@ -1,5 +1,8 @@
 <?php
 include "security.php";
+
+// Jika sudah login, lempar ke index
+prevent_login_bypass("index.php");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -44,7 +47,11 @@ include "security.php";
                         <label class="label-login" for="password">Kata Sandi</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
                     </div>
-
+                    <div class="utilities">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember"> Ingat Saya
+                        </label>
+                    </div>
                     <button type="submit" class="login-btn">Masuk</button>
                 </form>
 

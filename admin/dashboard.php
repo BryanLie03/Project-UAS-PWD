@@ -1,9 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['status_login']) || $_SESSION['status_login'] !== 'admin') {
-    header("Location: login.php");
-    exit;
-}
+include "security.php";
+
+// Pastikan sudah login
+require_login("../login.php");
+
+// Pastikan rolenya 'admin'
+require_role("admin", "../index.php");
 
 // KONEKSI API YOUTUBE - GANTI DENGAN DATA ANDA
 $api_key = 'AIzaSyBpSTSnnydglOfCEMO43doRrzDf-IMB62Y';

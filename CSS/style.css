@@ -1160,7 +1160,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .login-header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 
 .login-header h2 {
@@ -1176,14 +1176,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .input-group label-login {
   display: block;
   font-size: 14px;
   color: var(--primary-color);
-  margin-bottom: 8px;
   font-weight: 500;
 }
 
@@ -1219,16 +1218,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   color: #4a5568;
 }
 
-.forgot-password {
-  color: #1e295d;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
-}
-
 .login-btn {
   width: 100%;
   padding: 12px;
@@ -1240,6 +1229,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-top: 10px;
 }
 
 .login-btn:hover {
@@ -1461,6 +1451,24 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     text-align:center;
     font-size:18px;
     font-weight:600;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 20px;
+    transition: 0.3s ease;
+}
+
+.btn-back:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+    transform: translateX(-5px); /* Efek bergerak sedikit ke kiri saat di-hover */
 }
 
 @media (max-width: 992px) {
