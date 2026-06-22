@@ -12,6 +12,9 @@ include "security.php";
 <body>
 
 <div class="login-page-wrapper">
+    <div class="login-page-wrapper"> <a href="index.php" class="btn-back-absolute">
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </a>
     <div class="main-box">
             <div class="brand-logo-wrapper">
             <img src="Assets/img/Logo-scrolled.png" alt="Logo">

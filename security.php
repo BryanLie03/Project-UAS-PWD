@@ -10,7 +10,14 @@ session_set_cookie_params([
 
 // Mulai sesi
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => false,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]);   
+session_start();
 }
 
 // 2. Mencegah Session Fixation (Regenerasi ID sesi)
@@ -38,18 +45,18 @@ function is_logged_in() {
 }
 
 // Fungsi: Memaksa user untuk login (Gunakan di halaman Admin/User)
-function require_login($redirect_path = "../login.php") {
+function require_login($redirect_path = "login.php") {
     if (!is_logged_in()) {
-        header("Location: $redirect_path?pesan=belum_login");
+        // Kita ubah agar mengarah ke login.php di root
+        header("Location: " . dirname($_SERVER['PHP_SELF'], 2) . "/$redirect_path?pesan=belum_login");
         exit();
     }
 }
 
 // Fungsi: Memaksa role tertentu (Gunakan di halaman Admin)
-function require_role($role, $redirect_path = "../index.php") {
-    // Cek apakah rolenya sesuai
+function require_role($role, $redirect_path = "index.php") {
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== $role) {
-        header("Location: $redirect_path?pesan=akses_ditolak");
+        header("Location: " . dirname($_SERVER['PHP_SELF'], 2) . "/$redirect_path?pesan=akses_ditolak");
         exit();
     }
 }
@@ -57,7 +64,8 @@ function require_role($role, $redirect_path = "../index.php") {
 // Fungsi: Mencegah user yang sudah login untuk akses halaman login/register
 function prevent_login_bypass($redirect_path = "index.php") {
     if (is_logged_in()) {
-        header("Location: $redirect_path");
+        // Jika sudah login, paksa ke index di root
+        header("Location: " . dirname($_SERVER['PHP_SELF'], 1) . "/$redirect_path");
         exit();
     }
 }

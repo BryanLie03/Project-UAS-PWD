@@ -1453,22 +1453,32 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     font-weight:600;
 }
 
-.btn-back {
+.btn-back-absolute {
+    position: absolute;
+    top: 30px;
+    left: 40px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--primary-color);
+    gap: 10px;
+    color: var(--white-color); /* Warna putih agar kontras dengan background gelap */
     text-decoration: none;
-    font-weight: 600;
     font-size: 15px;
-    margin-bottom: 20px;
-    transition: 0.3s ease;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    
+    /* Efek kaca (Glassmorphism) */
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.btn-back:hover {
-    color: var(--secondary-color);
-    text-decoration: underline;
-    transform: translateX(-5px); /* Efek bergerak sedikit ke kiri saat di-hover */
+.btn-back-absolute:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-5px); /* Bergerak sedikit ke kiri saat disorot */
+    color: var(--white-color);
 }
 
 @media (max-width: 992px) {
