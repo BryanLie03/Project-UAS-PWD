@@ -1,6 +1,5 @@
 <?php
-// Pastikan file yang memanggil header ini (seperti index.php) 
-// sudah menjalankan session_start(); di baris paling atasnya.
+// Pastikan session_start() sudah dipanggil di Index.php sebelum include file ini
 include "koneksi.php";
 ?>
 
@@ -30,25 +29,34 @@ include "koneksi.php";
           <li><a href="#sejarah">Sejarah GYS Pontianak</a></li>
           <li><a href="#kegiatan">Kegiatan</a></li>
           <li><a href="#Galeri">Galeri</a></li>
-
+          
           <li class="nav-right"> 
-            <?php if (isset($_SESSION['status']) && $_SESSION['status'] == "login") : ?>
+              <?php if (isset($_SESSION['status']) && $_SESSION['status'] == "login") : ?>
                 <div class="profile-dropdown">
-                    <button class="profile-btn">
-                        <img src="Assets/img/jemaat1.jpeg" alt="Icon" class="profile-icon">
-                        <span class="profile-name"><?php echo $_SESSION['full_name']; ?> ▼</span>
-                    </button>
-                    
-                    <div class="dropdown-content">
-                        <a href="admin/logout.php">Logout</a>
-                    </div>
-                </div>
-
-            <?php else : ?>
-                <a href="login.php" class="btn-login">Login</a>
-            <?php endif; ?>
-          </li>
-
+            <button class="profile-btn">
+                <?php 
+                $nama = $_SESSION['full_name'];
+                $inisial = substr($nama, 0, 1); // Ambil huruf pertama
+                // Jika ada spasi, ambil huruf pertama dari kata kedua
+                if(strpos($nama, ' ') !== false) {
+                    $pecah = explode(' ', $nama);
+                    $inisial = strtoupper(substr($pecah[0], 0, 1) . substr($pecah[1], 0, 1));
+                } else {
+                    $inisial = strtoupper(substr($nama, 0, 1));
+                }
+                ?>
+                <div class="profile-icon"><?php echo $inisial; ?></div>
+                <span class="profile-name"><?php echo $_SESSION['full_name']; ?> ▼</span>
+            </button>
+            
+            <div class="dropdown-content">
+                <a href="admin/logout.php">Logout</a>
+            </div>
+        </div>
+    <?php else : ?>
+        <a href="login.php" class="btn-login">Login</a>
+    <?php endif; ?>
+</li>
         </ul>
       </nav>
     </header>

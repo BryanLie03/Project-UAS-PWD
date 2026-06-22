@@ -1,7 +1,7 @@
 <?php
+session_start(); 
 include "header.php";
 ?>
-
     <main>
       <section class="hero">
         <div class="hero-overlay">
