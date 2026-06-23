@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Tetap butuh session_start untuk kirim pesan error via URL
 include "koneksi.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -1,7 +1,8 @@
 <?php
-include "security.php";
-prevent_login_bypass("index.php"); 
+include "security.php"; // Panggil dari root
+prevent_login_bypass();
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>

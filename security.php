@@ -1,71 +1,58 @@
 <?php
-// 1. Pengaturan Cookie Keamanan (Jalankan SEBELUM session_start)
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => false, // Set ke true jika website sudah menggunakan HTTPS
-    'httponly' => true, // Mencegah akses cookie oleh JavaScript (XSS Protection)
-    'samesite' => 'Strict'
-]);
-
-// Mulai sesi
+// 1. Pengaturan Cookie & Sesi (Gunakan pengecekan status agar tidak duplikat)
 if (session_status() === PHP_SESSION_NONE) {
-session_set_cookie_params([
+    session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
         'secure' => false,
         'httponly' => true,
         'samesite' => 'Strict'
-    ]);   
-session_start();
+    ]);
+    session_start();
 }
 
-// 2. Mencegah Session Fixation (Regenerasi ID sesi)
+// 2. Mencegah Session Fixation
 if (!isset($_SESSION['initiated'])) {
     session_regenerate_id(true);
     $_SESSION['initiated'] = true;
 }
 
 // 3. Logika Idle Timeout (30 Menit)
-// Jika user tidak aktif selama 30 menit, sesi hancur otomatis
 $timeout_duration = 1800; 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout_duration)) {
     session_unset();
     session_destroy();
-    header("Location: ../login.php?pesan=timeout");
+    header("Location: login.php?pesan=timeout"); // Arahkan ke root
     exit();
 }
 $_SESSION['last_activity'] = time();
 
 // --- FUNGSI PROTEKSI ---
 
-// Fungsi: Cek apakah user sudah login
 function is_logged_in() {
     return isset($_SESSION['status']) && $_SESSION['status'] == "login";
 }
 
-// Fungsi: Memaksa user untuk login (Gunakan di halaman Admin/User)
-function require_login($redirect_path = "login.php") {
+// Fungsi sederhana: selalu arahkan ke login.php di root
+function require_login() {
     if (!is_logged_in()) {
-        // Kita ubah agar mengarah ke login.php di root
-        header("Location: " . dirname($_SERVER['PHP_SELF'], 2) . "/$redirect_path?pesan=belum_login");
+        header("Location: login.php?pesan=belum_login");
         exit();
     }
 }
 
-// Fungsi: Memaksa role tertentu (Gunakan di halaman Admin)
-function require_role($role, $redirect_path = "index.php") {
+// Fungsi sederhana: selalu arahkan ke index.php di root
+function require_role($role) {
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== $role) {
-        header("Location: " . dirname($_SERVER['PHP_SELF'], 2) . "/$redirect_path?pesan=akses_ditolak");
+        header("Location: index.php?pesan=akses_ditolak");
         exit();
     }
 }
 
-// Fungsi: Mencegah user yang sudah login untuk akses halaman login/register
-function prevent_login_bypass($redirect_path = "index.php") {
+// Fungsi: Mencegah user yang sudah login akses halaman login/register
+function prevent_login_bypass() {
     if (is_logged_in()) {
-        // Jika sudah login, paksa ke index di root
-        header("Location: " . dirname($_SERVER['PHP_SELF'], 1) . "/$redirect_path");
+        header("Location: index.php");
         exit();
     }
 }

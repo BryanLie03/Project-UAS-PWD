@@ -1,11 +1,7 @@
 <?php
-include "security.php";
-
-// Pastikan sudah login
-require_login("../login.php");
-
-// Pastikan rolenya 'admin'
-require_role("admin", "../index.php");
+include "../security.php"; // Panggil dari folder admin
+require_login();
+require_role("admin");
 
 // KONEKSI API YOUTUBE - GANTI DENGAN DATA ANDA
 $api_key = 'AIzaSyBpSTSnnydglOfCEMO43doRrzDf-IMB62Y';
