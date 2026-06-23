@@ -50,7 +50,15 @@ include "koneksi.php";
             </button>
             
             <div class="dropdown-content">
-                <a href="admin/logout.php">Logout</a>
+      <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') : ?>
+        <a href="admin/dashboard.php" class="admin-link">
+            <i class="fas fa-tachometer-alt"></i> Dashboard Admin
+        </a>
+    <?php endif; ?>
+    
+    <a href="admin/logout.php" class="logout-link">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
             </div>
         </div>
     <?php else : ?>

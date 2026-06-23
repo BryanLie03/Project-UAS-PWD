@@ -132,7 +132,7 @@ $data_galeri = file_exists('data_galeri.json') ? json_decode(file_get_contents('
         <a href="#event">Manajemen Event</a>
         <a href="#galeri">Manajemen Galeri</a>
         <hr style="border: 0; border-top: 1px solid #334155; margin: 20px 15px;">
-        <a href="index.php" target="_blank" style="background-color: #0284c7; color: white; border-radius: 5px; margin: 5px 15px; text-align: center;">Lihat Website</a>
+        <a href="../index.php" style="background-color: #0284c7; color: white; border-radius: 5px; margin: 5px 15px; text-align: center;">Lihat Website</a>
         <a href="logout.php" style="background-color: #ef4444; color: white; border-radius: 5px; margin: 5px 15px; text-align: center;">Keluar</a>
     </div>
 

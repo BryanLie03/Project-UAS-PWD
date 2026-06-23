@@ -23,7 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['role']      = $user['role'];
         $_SESSION['status']    = "login";
 
-        header("location:index.php");
+    if ($_SESSION['role'] === 'admin') {
+            header("location:admin/dashboard.php"); // Lempar ke Dashboard Admin
+        } else {
+            header("location:index.php"); // Lempar ke Beranda untuk User biasa
+        }
         exit();
     } else {
         // Jika email atau password salah
