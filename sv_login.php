@@ -3,34 +3,31 @@ session_start();
 include "koneksi.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    // Hash password menggunakan MD5 sesuai permintaan Anda
-    $password_input = md5($_POST['password']); 
-
-    // Menggunakan Prepared Statement untuk mencegah SQL Injection
-    // Kita mencari email dan password sekaligus di database
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $password_input = md5($_POST['password']);
     $stmt = $conn->prepare("SELECT id_user, full_name, role FROM users WHERE email = ? AND password = ?");
     $stmt->bind_param("ss", $email, $password_input);
     $stmt->execute();
     $result = $stmt->get_result();
 
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("location:login.php?error=email");
+    exit();
+}
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
-
-        // Buat Sesi
         $_SESSION['id_user']   = $user['id_user'];
         $_SESSION['full_name'] = $user['full_name'];
         $_SESSION['role']      = $user['role'];
         $_SESSION['status']    = "login";
 
     if ($_SESSION['role'] === 'admin') {
-            header("location:admin/dashboard.php"); // Lempar ke Dashboard Admin
+            header("location:admin/dashboard.php");
         } else {
-            header("location:index.php"); // Lempar ke Beranda untuk User biasa
+            header("location:index.php");
         }
         exit();
     } else {
-        // Jika email atau password salah
         header("location:login.php?error=salah");
         exit();
     }
