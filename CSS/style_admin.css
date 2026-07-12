@@ -1,0 +1,298 @@
+/* ====================================
+CSS RESET & GENERAL FOR ADMIN
+   ==================================== */
+:root { 
+    --sidebar-bg: #1e293b; 
+    --accent: #3b82f6; 
+    --bg-color: #f1f5f9; 
+    --card-bg: #ffffff; 
+    --text-main: #333333; 
+}
+
+body { 
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, sans-serif; 
+    display: flex; 
+    background-color: var(--bg-color); 
+    color: var(--text-main); 
+}
+
+/* SIDEBAR */
+.sidebar { 
+    width: 250px; 
+    background-color: var(--sidebar-bg); 
+    color: white; 
+    min-height: 100vh; 
+    position: fixed; 
+}
+
+.sidebar-header { 
+    padding: 20px; 
+    font-size: 1.2em; 
+    font-weight: bold; 
+    text-align: center; 
+    border-bottom: 1px solid #334155; 
+    background-color: #0f172a; 
+}
+
+.sidebar a { 
+    color: #cbd5e1; 
+    text-decoration: none; 
+    padding: 15px 20px; 
+    display: block; 
+    border-left: 4px solid transparent; 
+    transition: 0.3s; 
+}
+
+.sidebar a:hover { 
+    background-color: #334155; 
+    border-left: 4px solid var(--accent); 
+    color: white; 
+}
+
+.sidebar hr {
+  border: 0; 
+  border-top: 1px solid #334155; 
+  margin: 20px 15px;
+}
+
+.sidebar .btn-view-site {
+    background-color: #0284c7; 
+    color: white; 
+    border-radius: 5px; 
+    margin: 5px 15px; 
+    text-align: center;
+}
+
+.sidebar .btn-logout {
+    background-color: #ef4444; 
+    color: white; 
+    border-radius: 5px; 
+    margin: 5px 15px; 
+    text-align: center;
+}
+
+/* CONTENT MAIN */
+.main-content { 
+    flex: 1; 
+    margin-left: 250px; 
+    padding: 30px; 
+}
+
+.header-title { 
+    margin-top: 0; 
+    color: #1e293b; 
+    border-bottom: 2px solid #e2e8f0; 
+    padding-bottom: 10px; 
+    margin-bottom: 20px; 
+}
+
+/* CARDS / CONTAINERS */
+.card { 
+    background-color: var(--card-bg); 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-bottom: 30px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+}
+
+.card h3 { 
+    margin-top: 0; 
+    color: #0f172a; 
+}
+
+/* BUTTONS */
+.btn { 
+    padding: 8px 12px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 0.9em; 
+    transition: 0.2s; 
+}
+
+.btn-primary { 
+    background-color: var(--accent); 
+}
+
+.btn-primary:hover { 
+    background-color: #2563eb; 
+}
+
+.btn-success { 
+    background-color: #10b981; 
+} 
+
+.btn-success:hover { 
+    background-color: #059669; 
+}
+
+.btn-danger { 
+    background-color: #ef4444; 
+} 
+
+.btn-danger:hover { 
+    background-color: #dc2626; 
+}
+
+.btn-save-title {
+    padding: 10px 15px;
+}
+
+/* FORMS */
+input[type="text"], input[type="date"], input[type="file"], textarea { 
+    width: 100%; 
+    padding: 10px; 
+    margin: 10px 0 15px 0; 
+    border: 1px solid #cbd5e1; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
+
+.form-admin-box {
+    background: #f8fafc; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 20px;
+}
+
+/* TABLES */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 15px; 
+}
+
+th, td { 
+    border: 1px solid #e2e8f0; 
+    padding: 12px; 
+    text-align: left; 
+}
+
+th { 
+    background-color: #f8fafc; 
+    font-weight: 600; 
+}
+
+.th-preview {
+    width: 15%;
+}
+
+/* NEW YOUTUBE LAYOUT (Editable Video Set) */
+.active-video-set {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    background: #f8fafc;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+
+.editable-title-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.editable-title-form input[type="text"] {
+    margin: 0; 
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.video-thumbnail-wrapper img {
+    width: 100%;
+    max-width: 460px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.metadata-text {
+    font-size: small;
+    font-weight: lighter;
+    color: #64748b;
+    margin: 0 0 15px 0;
+}
+
+/* YT API Grid */
+.yt-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+    gap: 15px; 
+    margin-top: 15px; 
+}
+
+.yt-card { 
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    text-align: center; 
+}
+
+.yt-card img { 
+    width: 100%; 
+    height: auto; 
+    border-bottom: 1px solid #e2e8f0; 
+}
+
+.yt-card h4 { 
+    padding: 5px 10px; 
+    font-size: 0.85em; 
+    margin: 0; 
+}
+
+.yt-card-actions { 
+    padding: 10px; 
+    border-top: 1px solid #e2e8f0; 
+}
+
+/* NOTIFICATIONS & BADGES */
+.alert-success-admin {
+    background-color: #10b981; 
+    color: white; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 20px; 
+    font-weight: bold;
+}
+
+.alert-danger-admin {
+    color: #ef4444; 
+    font-weight: bold;
+}
+
+.alert-error-yt {
+    color: red; 
+    grid-column: 1 / -1;
+}
+
+.info-badge {
+    background: #e0f2fe; 
+    color: #0284c7; 
+    padding: 3px 8px; 
+    border-radius: 12px; 
+    font-size: 0.8em;
+}
+
+.badge { 
+    display: inline-block; 
+    padding: 3px 8px; 
+    background-color: #ef4444; 
+    color: white; 
+    border-radius: 3px; 
+    font-size: 0.75em; 
+    margin-top: 10px; 
+}
+
+.hr-divider {
+    border: 0; 
+    border-top: 1px solid #e2e8f0; 
+    margin: 30px 0;
+}
+
+.img-preview {
+    width: 100px; 
+    border-radius: 5px;
+}

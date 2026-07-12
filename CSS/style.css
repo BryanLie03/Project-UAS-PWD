@@ -285,6 +285,7 @@ html {
   border-radius: 40px;
   overflow: hidden;
   box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.15);
+  margin: 0;
 }
 
 .welcome-image img {
@@ -325,7 +326,7 @@ html {
   /* Wadah untuk card pada bagian dasar kepercayaan */
   position: relative;
   display: flex;
-  align-items: center; /* Telah diperbaiki dari 'flex' menjadi 'center' */
+  align-items: center; 
   padding: 0 90px;
 }
 
@@ -341,9 +342,7 @@ html {
   cursor: pointer; /* Agar cursor berubah saat dihover */
   position: absolute;
   top: 50%;
-  transform: translateY(
-    -50%
-  ); /* Memastikan tombol berada di tengah secara vertikal */
+  transform: translateY(-50%); /* Memastikan tombol berada di tengah secara vertikal */
   z-index: 10;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -355,7 +354,7 @@ html {
 }
 
 .slider-wrapper:hover .slider-btn {
-  /* MEnampilkan tombol slider saat cursor di bagian slider */
+  /* Menampilkan tombol slider saat cursor di bagian slider */
   opacity: 1;
   visibility: visible;
 }
@@ -381,7 +380,7 @@ html {
 .card-grid {
   /* Menghilangkan scrollbar untuk Firefox dan Edge */
   -ms-overflow-style: none;
-  scrollbar-width: none; /* Typo garis miring terhapus */
+  scrollbar-width: none; 
   display: flex;
   gap: 30px;
   overflow-x: hidden; /* Menyembunyikan card yang diluar wrapper */
@@ -401,9 +400,7 @@ html {
 
 .box-card {
   background-color: var(--primary-color);
-  min-width: calc(
-    (100% - 60px) / 3
-  ); /* Mengatur agar hanya ada 3 card yang ditampilkan */
+  min-width: calc((100% - 60px) / 3); /* Mengatur agar hanya ada 3 card yang ditampilkan */
   border-radius: 25px;
   padding: 60px 35px 40px 35px;
   display: flex;
@@ -719,10 +716,7 @@ html {
 
 .jadwal-flex {
   display: grid;
-  grid-template-columns: repeat(
-    2,
-    1fr
-  ); /* membagi menjadi 2 kolom dengan lebar yang sama dan setiap kolomn berisi 1  */
+  grid-template-columns: repeat(2, 1fr); /* membagi menjadi 2 kolom */
   gap: 85px;
   justify-content: center;
 }
@@ -843,6 +837,166 @@ html {
   line-height: 1.6;
 }
 
+.doa { 
+  padding: 100px 115px; 
+  background-color: var(--white-color); 
+  display: flex; 
+  justify-content: center;
+}
+
+.doa-container { 
+  background: linear-gradient(to bottom, #3a7bd5, var(--primary-color)); 
+  max-width: 600px; 
+  width: 100%; 
+  padding: 55px; 
+  border-radius: 20px; 
+  box-shadow: 0 15px 35px rgba(30, 78, 161, 0.2); 
+}
+
+.doa-header { 
+  text-align: center; 
+  margin-bottom: 35px; 
+}
+
+.doa-icon { 
+  font-size: 55px; 
+  color: var(--white-color); 
+  margin-bottom: 15px; 
+  display: inline-block;
+}
+
+.doa-header h2 { 
+  font-size: 42px; 
+  font-weight: 800; 
+  color: var(--white-color); 
+  margin-bottom: 10px; 
+}
+
+.doa-header p { 
+  color: #e0e0e0; 
+  font-size: 22px; 
+  line-height: 1.5;
+}
+
+.input-group { 
+  margin-bottom: 22px; 
+  display: flex; 
+  flex-direction: column; 
+  text-align: left; 
+}
+
+.input-group label { 
+  font-weight: 600; 
+  margin-bottom: 8px; 
+  color: var(--white-color);
+  font-size: 16px;
+}
+
+.doa-form input, 
+.doa-form textarea { 
+  width: 100%; 
+  padding: 18px 20px; 
+  border: none; 
+  border-radius: 10px; 
+  font-size: 15px; 
+  font-family: var(--main-font); 
+  background-color: #ffffff;
+  color: var(--dark-text-color);
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+.doa-form input:focus, 
+.doa-form textarea:focus { 
+  outline: none; 
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.35);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator { 
+  cursor: pointer; 
+  opacity: 0.6; 
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+.error-msg { 
+  color: #ffcccc; 
+  font-size: 14px; 
+  margin-top: 5px; 
+  display: none; 
+}
+
+.input-group.invalid .error-msg { display: block; }
+.input-group.invalid input, 
+.input-group.invalid textarea { 
+  border: 2px solid #ffcccc; 
+  background-color: #fff0f0;
+}
+
+.btn-doa { 
+  width: 100%; 
+  padding: 18px; 
+  margin-top: 15px;
+  font-size: 18px; 
+  font-weight: 700; 
+  border-radius: 10px; 
+  border: none; 
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+}
+
+.btn-doa:disabled { 
+  background-color: rgba(255, 255, 255, 0.15); 
+  color: rgba(255, 255, 255, 0.6); 
+  cursor: not-allowed; 
+}
+
+.btn-doa:not(:disabled) { 
+  background-color: var(--white-color); 
+  color: var(--primary-color);
+}
+
+.btn-doa:not(:disabled):hover { 
+  background-color: #f0f0f0;
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+}
+
+.doa .alert {
+  margin-bottom: 20px;
+}
+
+.doa-logged-out-box {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 35px 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.doa-lock-icon {
+  font-size: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15px;
+}
+
+.doa-login-notice {
+  color: var(--white-color);
+  font-size: 18px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.btn-login-doa {
+  font-size: 16px;
+  padding: 12px 35px;
+}
+
 .footer {
   background: linear-gradient(
     to bottom,
@@ -947,6 +1101,40 @@ html {
   color: var(--white-color);
 }
 
+.btn-scroll-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  
+  /* Menyembunyikan tombol secara default */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.btn-scroll-top:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-5px); /* Efek terangkat saat disorot */
+}
+
+/* Class ini akan ditambahkan oleh JavaScript saat user scroll ke bawah */
+.btn-scroll-top.muncul {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 .animasi-muncul {
   opacity: 0;
   transform: translateY(60px);
@@ -960,138 +1148,9 @@ html {
   transform: translateY(0);
 }
 
-.doa { 
-  padding: 100px 115px; 
-  background-color: var(--white-color); 
-  display: flex; 
-  justify-content: center
-}
-
-.doa-container { 
-  background: linear-gradient(to bottom, #3a7bd5, var(--primary-color)); 
-  max-width: 600px; 
-  width: 100%; 
-  padding: 55px; 
-  border-radius: 20px; 
-  box-shadow: 0 15px 35px rgba(30, 78, 161, 0.2); 
-}
-
-.doa-header { 
-  text-align: center; 
-  margin-bottom: 35px; 
-}
-
-.doa-icon { 
-  font-size: 55px; 
-  color: var(--white-color); 
-  margin-bottom: 15px; 
-  display: inline-block;
-}
-
-.doa-header h2 { 
-  font-size: 42px; 
-  font-weight: 800; 
-  color: var(--white-color); 
-  margin-bottom: 10px; 
-}
-
-.doa-header p { 
-  color: #e0e0e0; 
-  font-size: 22px; 
-  line-height: 1.5;
-}
-
-.input-group { 
-  margin-bottom: 22px; 
-  display: flex; 
-  flex-direction: column; 
-  text-align: left; 
-}
-
-.input-group label { 
-  font-weight: 600; 
-  margin-bottom: 8px; 
-  color: var(--white-color);
-  font-size: 16px;
-}
-
-.doa-form input, 
-.doa-form textarea { 
-  width: 100%; 
-  padding: 18px 20px; 
-  border: none; 
-  border-radius: 10px; 
-  font-size: 15px; 
-  font-family: var(--main-font); 
-  background-color: #ffffff;
-  color: var(--dark-text-color);
-  transition: all 0.3s ease;
-  resize: none;
-}
-
-
-.doa-form input:focus, 
-.doa-form textarea:focus { 
-  outline: none; 
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.35);
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator { 
-  cursor: pointer; 
-  opacity: 0.6; 
-  font-size: 18px;
-  transition: 0.3s;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-  color: var(--primary-color);
-}
-
-.error-msg { 
-  color: #ffcccc; 
-  font-size: 14px; 
-  margin-top: 5px; 
-  display: none; 
-}
-
-.input-group.invalid .error-msg { display: block; }
-.input-group.invalid input, 
-.input-group.invalid textarea { 
-  border: 2px solid #ffcccc; 
-  background-color: #fff0f0;
-}
-
-.btn-doa { 
-  width: 100%; 
-  padding: 18px; 
-  margin-top: 15px;
-  font-size: 18px; 
-  font-weight: 700; 
-  border-radius: 10px; 
-  border: none; 
-  cursor: pointer; 
-  transition: all 0.3s ease; 
-}
-
-.btn-doa:disabled { 
-  background-color: rgba(255, 255, 255, 0.15); 
-  color: rgba(255, 255, 255, 0.6); 
-  cursor: not-allowed; 
-}
-
-.btn-doa:not(:disabled) { 
-  background-color: var(--white-color); 
-  color: var(--primary-color);
-}
-
-.btn-doa:not(:disabled):hover { 
-  background-color: #f0f0f0;
-  transform: translateY(-3px); 
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
-}
-
-/*login*/
+/* ====================================
+   LOGIN & REGISTER
+   ==================================== */
 
 .login-page-wrapper {
   position: fixed;
@@ -1106,6 +1165,33 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   z-index: 99999;
   padding: 20px;
 }
+
+.btn-back-absolute {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white-color); 
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  background:  rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 30px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-back-absolute:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-5px); 
+  color: var(--white-color);
+}
+
 
 .main-box {
   width: 100%;
@@ -1151,7 +1237,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .login-container {
-  background: #ffffff;
+  background: var(--white-color);
   padding: 35px 30px;
   border-radius: 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
@@ -1165,7 +1251,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .login-header h2 {
   font-weight: 600;
-  color: #2d3748;
+  color: var(--black-color);
   font-size: 24px;
   margin-bottom: 5px;
 }
@@ -1179,7 +1265,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-bottom: 10px;
 }
 
-.input-group label-login {
+.input-group .label-login {
   display: block;
   font-size: 14px;
   color: var(--primary-color);
@@ -1194,7 +1280,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   font-size: 14px;
   transition: all 0.3s ease;
   outline: none;
-  color: #2d3748;
+  color: var(--dark-text-color);
 }
 
 .input-group input:focus {
@@ -1221,10 +1307,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .login-btn {
   width: 100%;
   padding: 12px;
-  background: #1e295d;
+  background: var(--primary-color);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--white-color);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -1244,7 +1330,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .register-link a {
-  color: #1e295d;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 600;
 }
@@ -1253,266 +1339,238 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   text-decoration: underline;
 }
 
+.alert {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.alert-danger {
+  background-color: #ffeeed;
+  color: #d9534f;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
 /* ====================================
    PROFIL DROPDOWN & LOGOUT (VERSI BERSIH)
    ==================================== */
 
 .nav-right {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .profile-dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* JEMBATAN TRANSPARAN (Cukup ini saja) */
 .profile-dropdown::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -20px; 
-    width: 100%;
-    height: 20px;
-    background-color: transparent;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -20px; 
+  width: 100%;
+  height: 20px;
+  background-color: transparent;
 }
 
 .profile-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    font-family: inherit;
-    color: var(--white-color); 
-    font-weight: 600; 
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--white-color); 
+  font-weight: 600; 
 }
 
 .profile-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--primary-color); 
-    color: var(--white-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    text-transform: uppercase;
-    border: 2px solid var(--white-color); 
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-color); 
+  color: var(--white-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: 2px solid var(--white-color); 
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: calc(100% + 15px); 
-    background-color: var(--white-color);
-    min-width: 170px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    z-index: 999;
-    overflow: hidden; 
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 15px); 
+  background-color: var(--white-color);
+  min-width: 170px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  z-index: 999;
+  overflow: hidden; 
 }
 
 .profile-dropdown:hover .dropdown-content {
-    display: block;
+  display: block;
 }
 
 /* Memperkuat warna agar tidak bertabrakan dengan navbar */
 .nav-links .dropdown-content a {
-    color: var(--dark-text-color) !important;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: flex; /* Diubah dari block ke flex agar ikon dan teks sejajar rapi */
-    align-items: center;
-    gap: 10px; /* Jarak antara ikon dan teks */
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.3s ease;
+  color: var(--dark-text-color) !important;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex; 
+  align-items: center;
+  gap: 10px; /* Jarak antara ikon dan teks */
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s ease;
 }
 
 /* Mencegah efek garis putih navbar bocor */
 .nav-links .dropdown-content a::after {
-    display: none !important;
+  display: none !important;
 }
 
 .nav-links .dropdown-content a.admin-link:hover {
-    background-color: #f4f6f8 !important; /* Efek abu-abu muda */
-    color: var(--primary-color) !important; 
-    padding-left: 20px; /* Animasi bergeser ke kanan */
+  background-color: #f4f6f8 !important; /* Efek abu-abu muda */
+  color: var(--primary-color) !important; 
+  padding-left: 20px; /* Animasi bergeser ke kanan */
 }
 
 .nav-links .dropdown-content a.logout-link {
-    color: #e74c3c !important; /* Warna default merah */
-    border-top: 1px solid #f0f0f0; /* Garis pemisah antara dashboard dan logout */
+  color: #e74c3c !important; /* Warna default merah */
+  border-top: 1px solid #f0f0f0; /* Garis pemisah antara dashboard dan logout */
 }
 
 .nav-links .dropdown-content a.logout-link:hover {
-    background-color: #ffeaea !important; /* Efek hover merah dari CSS kamu sebelumnya */
-    color: #c0392b !important; 
-    padding-left: 20px; /* Animasi bergeser ke kanan */
+  background-color: #ffeaea !important; 
+  color: #c0392b !important; 
+  padding-left: 20px; /* Animasi bergeser ke kanan */
 }
 
-.profile-dropdown:hover .dropdown-content {
-    display: block;
+/* ====================================
+   CSS BAGIAN GALERI
+   ==================================== */
+
+.hero-galeri {
+  height: 100vh;
+  background: #0d36b3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* css bagian galeri */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: var(--main-font);
+.hero-galeri h1 {
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
 }
 
-.hero-galeri{
-    height: 100vh;
-    background:#0d36b3;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.galeri-container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 40px auto;
 }
 
-.hero-galeri h1{
-    color:white;
-    font-size:50px;
-    font-weight:bold;
+.breadcrumb {
+  margin-bottom: 30px;
+  font-size: 14px;
 }
 
-.galeri-container{
-    width:80%;
-    max-width:1200px;
-    margin:40px auto;
+.breadcrumb a {
+  text-decoration: none;
+  color: #666;
 }
 
-.breadcrumb{
-    margin-bottom:30px;
-    font-size:14px;
+.breadcrumb a:hover {
+  color: #0d36b3;
 }
 
-.breadcrumb a{
-    text-decoration:none;
-    color:#666;
+.breadcrumb .active {
+  font-weight: bold;
+  color: black;
 }
 
-.breadcrumb a:hover{
-    color:#0d36b3;
+.filter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
-.breadcrumb .active{
-    font-weight:bold;
-    color:black;
+.filter select {
+  width: 300px;
+  padding: 20px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #0d36b3;
+  color: white;
+  cursor: pointer;
+  font-size: 15px; 
+  font-weight: 500;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 25px center; 
+  background-size: 20px;
 }
 
-.filter{
-    display:flex;
-    justify-content:center;
-    margin-bottom:40px;
+.galeri-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  justify-content: center;
 }
 
-.filter select{
-    width:300px;
-    padding: 20px 20px;
-    border:none;
-    border-radius:25px;
-    background:#0d36b3;
-    color:white;
-    cursor:pointer;
-    font-size: 15px; 
-    font-weight: 500;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-    background-repeat: no-repeat;
-    background-position: right 25px center; 
-    background-size: 20px;
+.card {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.card h3 {
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 
-.galeri-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:40px;
-    justify-content:center;
-}
-
-.card{
-    width:100%;
-    max-width:500px;
-    margin:auto;
-    background:white;
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card img{
-    width:100%;
-    height:300px;
-    object-fit:cover;
-    display:block;
-}
-
-.card h3{
-    padding:15px;
-    text-align:center;
-    font-size:18px;
-    font-weight:600;
-}
-
-.btn-back-absolute {
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--white-color); /* Warna putih agar kontras dengan background gelap */
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    
-    /* Efek kaca (Glassmorphism) */
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px 20px;
-    border-radius: 30px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.btn-back-absolute:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateX(-5px); /* Bergerak sedikit ke kiri saat disorot */
-    color: var(--white-color);
-}
-
-@media (max-width: 992px) {
-  .welcome-flex {
-    flex-direction: column;
-  }
-
-  .blue-frame {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-
-  .blue-frame::before {
-    bottom: -25px;
-    left: -25px;
-  }
-}
+/* ====================================
+   MEDIA QUERIES (RESPONSIVE)
+   ==================================== */
 
 @media (max-width: 992px) {
   .welcome-flex,
@@ -1529,6 +1587,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     width: 100%;
     margin-bottom: 30px;
   }
+
   .blue-frame::before {
     bottom: -20px;
     left: -20px;
@@ -1548,6 +1607,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   .image-kegiatan.reverse .text-kegiatan p {
     text-align: center;
   }
+
   .kegiatan img {
     width: 100%;
     height: auto;
@@ -1559,10 +1619,12 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     text-align: center;
     gap: 40px;
   }
+
   .footer-link {
     flex-direction: column;
     gap: 40px;
   }
+
   .footer-logo img {
     margin-top: 0;
     margin-left: 0;
@@ -1574,6 +1636,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     font-size: 60px;
     line-height: 80px;
   }
+  
   .hero p {
     font-size: 20px;
     line-height: 30px;
@@ -1607,4 +1670,3 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     padding: 60px 20px;
   }
 }
-

@@ -3,16 +3,17 @@ window.addEventListener("scroll", function () {
   const navbar =
     document.querySelector(
       ".navbar",
-    ); /* Deklarasi variabel navar yang datanya diambil dari html */
+    ); /* Deklarasi variabel navbar yang datanya diambil dari html */
+
   if (window.scrollY > 90) {
-    /* jika scroll vertilkal lebih dari 90 px makamenjalankan perintah dibawah */
+    /* jika scroll vertikal lebih dari 90 px maka menjalankan perintah dibawah */
     navbar.classList.add(
       "scrolled",
-    ); /* Menambah class .srollled pada .navbar */
+    ); /* Menambah class .scrolled pada .navbar */
   } else {
     navbar.classList.remove(
       "scrolled",
-    ); /* Menghapus class .srollled pada .navbar */
+    ); /* Menghapus class .scrolled pada .navbar */
   }
 });
 
@@ -22,35 +23,34 @@ const btnRight = document.getElementById("btn-right");
 
 let spam = false; /* Memerintahkan untuk mengabaikan input spam */
 
-btnRight.addEventListener("click", function () {
-  if (!track || spam)
-    return; /* Jika card habis atau ada spam maka langsung keluar dari fungsi tersebut*/
+if (btnRight) {
+  btnRight.addEventListener("click", function () {
+    if (!track || spam) return; /* Jika card habis atau ada spam maka langsung keluar dari fungsi tersebut */
 
-  const card =
-    track.querySelector(
-      ".box-card",
-    ).offsetWidth; /* Menghitung lebar keseluruhan kartu dan menyimpanya pada variabel card */
-  const scrollStep =
-    card +
-    30; /* Memajukan lebar kartu keseluruhan yang muncul dilayar sebanyak 30px sesuai gap antar card */
+    /* Menghitung lebar keseluruhan kartu dan menyimpanya pada variabel card */
+    const card = track.querySelector(".box-card").offsetWidth;
+    const scrollStep = card + 30; /* Memajukan lebar kartu keseluruhan yang muncul dilayar sebanyak 30px sesuai gap antar card */
 
-  track.scrollBy({
-    left: scrollStep /* Menggeser card ke kiri */,
-    behavior: "smooth",
+    track.scrollBy({
+      left: scrollStep /* Menggeser card ke kiri */,
+      behavior: "smooth",
+    });
   });
-});
+}
 
-btnLeft.addEventListener("click", function () {
-  if (!track || spam) return;
+if (btnLeft) {
+  btnLeft.addEventListener("click", function () {
+    if (!track || spam) return;
 
-  const card = track.querySelector(".box-card").offsetWidth;
-  const scrollStep = card + 30;
+    const card = track.querySelector(".box-card").offsetWidth;
+    const scrollStep = card + 30;
 
-  track.scrollBy({
-    left: -scrollStep /* Menggeser card ke kanan */,
-    behavior: "smooth",
+    track.scrollBy({
+      left: -scrollStep /* Menggeser card ke kanan */,
+      behavior: "smooth",
+    });
   });
-});
+}
 
 const sejarahTrack = document.getElementById("sejarah-track");
 const dots = document.querySelectorAll(".sejarah-dot .dot");
@@ -61,13 +61,12 @@ function autoScrollSejarah() {
 
   const timelineWidth =
     sejarahTrack.querySelector(".sejarah-timeline").offsetWidth;
-
   const scrollStep = timelineWidth + 30;
 
+  /* jika total scroll left lebih besar dari lebar track sejarah maka track akan kembali ke awal */
   if (
     sejarahTrack.scrollLeft + sejarahTrack.clientWidth >=
-    sejarahTrack.scrollWidth -
-      10 /* jika total scroll left lebih besar dari lebar track sejarah maka track akan kembali ke awal */
+    sejarahTrack.scrollWidth - 10
   ) {
     sejarahTrack.scrollTo({
       left: 0,
@@ -89,9 +88,8 @@ function startAutoScroll() {
 }
 
 function resetAutoScroll() {
-  clearInterval(
-    autoScrollTimer,
-  ); /* Jika user mengganti halaman menggunakann dot maka timer interval direset ke 0 */
+  /* Jika user mengganti halaman menggunakan dot maka timer interval direset ke 0 */
+  clearInterval(autoScrollTimer);
   startAutoScroll();
 }
 
@@ -103,10 +101,9 @@ function updateDots() {
   const timelineWidth =
     sejarahTrack.querySelector(".sejarah-timeline").offsetWidth;
 
+  /* Menghitung dengan pembulatan untuk menentukan indeks dot pada sejarah */
   const currentIndex = Math.round(
-    sejarahTrack.scrollLeft /
-      (timelineWidth +
-        30) /* Menghitung dengan pembulatan untuk menentukan indeks dot pada sejarah */,
+    sejarahTrack.scrollLeft / (timelineWidth + 30),
   );
 
   dots.forEach((dot) =>
@@ -116,7 +113,7 @@ function updateDots() {
   if (dots[currentIndex]) {
     dots[currentIndex].classList.add(
       "active",
-    ); /* Menabah class active sesuai dengan index dari perhitungan sebelumnya */
+    ); /* Menambah class active sesuai dengan index dari perhitungan sebelumnya */
   }
 }
 
@@ -130,7 +127,6 @@ dots.forEach((dot, index) => {
 
     const cardWidth =
       sejarahTrack.querySelector(".sejarah-timeline").offsetWidth;
-
     const scrollStep = cardWidth + 30;
 
     sejarahTrack.scrollTo({
@@ -146,7 +142,8 @@ function muncul() {
   var elements = document.querySelectorAll(".animasi-muncul");
   for (var i = 0; i < elements.length; i++) {
     /* Fungsi Perulangan */
-    var windowHeight = window.innerHeight; /* Menhitung tinggi layar pengguna */
+    var windowHeight =
+      window.innerHeight; /* Menghitung tinggi layar pengguna */
     var elementTop =
       elements[i].getBoundingClientRect()
         .top; /* Mengecek elemen sudah muncul dilayar atau masih dibawah */
@@ -157,11 +154,11 @@ function muncul() {
     }
   }
 }
-window.addEventListener(
-  "scroll",
-  muncul,
-); /* MMemastikan fungsi muncul otomatis dijalankan setiap scroll */
-muncul(); /* langsung memunculkan bagian atas saat reload sehingga tidak perlu scroll ke atas lagi untuk mentriger fungsi muncul */
+
+/* Memastikan fungsi muncul otomatis dijalankan setiap scroll */
+window.addEventListener("scroll", muncul);
+/* langsung memunculkan bagian atas saat reload sehingga tidak perlu scroll ke atas lagi untuk mentriger fungsi muncul */
+muncul();
 
 const formDoa = document.getElementById("doa-form");
 const inputTanggal = document.getElementById("tanggal");
@@ -169,6 +166,23 @@ const inputDoa = document.getElementById("isi-doa");
 const btnSubmitDoa = document.getElementById("btn-submit-doa");
 
 if (formDoa) {
+  const hariIni = new Date();
+
+  // Format tanggal ke YYYY-MM-DD (format standar input date HTML)
+  const formatTanggal = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0"); // Bulan dimulai dari 0
+    const dd = String(date.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  // Set tanggal minimal (Hari Ini)
+  inputTanggal.min = formatTanggal(hariIni);
+
+  // Hitung dan set tanggal maksimal (7 Hari ke Depan)
+  const tujuhHariLalu = new Date();
+  tujuhHariLalu.setDate(hariIni.getDate() + 7);
+  inputTanggal.max = formatTanggal(tujuhHariLalu);
 
   function cekFormDoa() {
     if (inputTanggal.value !== "" && inputDoa.value.trim() !== "") {
@@ -189,8 +203,6 @@ if (formDoa) {
   inputDoa.addEventListener("input", cekFormDoa);
 
   formDoa.addEventListener("submit", function (e) {
-    e.preventDefault();
-
     let isValid = true;
 
     if (inputTanggal.value === "") {
@@ -203,13 +215,44 @@ if (formDoa) {
       isValid = false;
     }
 
-    if (isValid) {
-      alert("Terima kasih! Permohonan doa Anda telah kami terima.");
-      formDoa.reset();
-      btnSubmitDoa.setAttribute("disabled", "true");
+    // Jika form TIDAK valid, cegah submit (e.preventDefault)
+    if (!isValid) {
+      e.preventDefault();
+    } else {
+      // Jika form valid, kita tampilkan tombol loading agar tidak di-klik 2 kali
+      btnSubmitDoa.textContent = "Mengirim...";
+      btnSubmitDoa.style.opacity = "0.7";
+      // e.preventDefault() TIDAK DIPANGGIL di sini,
+      // sehingga browser akan mengirim data secara normal ke sv_doa.php
     }
   });
 }
 
+// ====================================
+// TOMBOL SCROLL KE ATAS
+// ====================================
+const btnScrollTop = document.getElementById("btn-scroll-top");
 
+if (btnScrollTop) {
+  // Fungsi 1: Mendeteksi scroll pengguna
+  window.addEventListener("scroll", function () {
+    // Jika pengguna scroll lebih dari 300px ke bawah, munculkan tombol
+    if (window.scrollY > 300) {
+      btnScrollTop.classList.add("muncul");
+    } else {
+      // Jika kembali ke atas (kurang dari 300px), sembunyikan tombol
+      btnScrollTop.classList.remove("muncul");
+    }
+  });
 
+  // Fungsi 2: Aksi saat tombol diklik
+  btnScrollTop.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    // Anda tidak perlu menulis perintah untuk menyembunyikan tombol di sini,
+    // karena saat layar kembali ke atas, event listener scroll (Fungsi 1) 
+    // akan otomatis mendeteksi posisi 0 dan menyembunyikannya.
+  });
+}
