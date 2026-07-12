@@ -2,6 +2,34 @@
 include "../security.php"; // Panggil dari root (karena file ini di dalam folder admin)
 require_login();
 require_role("admin");
+require_once 'koneksi.php';
+
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'hari';
+$tab_status = isset($_GET['tab']) ? $_GET['tab'] : 'Pending'; 
+$search_query = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 10; 
+$offset = ($page - 1) * $limit;
+
+// ==========================================================
+// MENGHITUNG STATISTIK KARTU BAGIAN ATAS (SUMMARY CARDS)
+// ==========================================================
+$count_pending = 0;
+$count_confirmed = 0;
+$count_total = 0;
+
+if ($conn) {
+    $q_count = mysqli_query($conn, "SELECT status, COUNT(*) as total FROM `prayers` GROUP BY status");
+    while ($row = mysqli_fetch_assoc($q_count)) {
+        if ($row['status'] == 'Pending') {
+            $count_pending = $row['total'];
+        } elseif ($row['status'] == 'Dikonfirmasi') {
+            $count_confirmed = $row['total'];
+        }
+    }
+    $count_total = $count_pending + $count_confirmed;
+}
+// ==========================================================
 
 // KONEKSI API YOUTUBE - GANTI DENGAN DATA ANDA
 $api_key = 'AIzaSyBpSTSnnydglOfCEMO43doRrzDf-IMB62Y';
@@ -38,6 +66,8 @@ $data_video_cms = file_exists('data_video.json') ? json_decode(file_get_contents
 $data_event = file_exists('data_event.json') ? json_decode(file_get_contents('data_event.json'), true) : [];
 $data_galeri = file_exists('data_galeri.json') ? json_decode(file_get_contents('data_galeri.json'), true) : [];
 ?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -50,6 +80,8 @@ $data_galeri = file_exists('data_galeri.json') ? json_decode(file_get_contents('
 
     <div class="sidebar">
         <div class="sidebar-header">Panel Administrator</div>
+        <a href="#grafik">Statistik Doa</a> 
+        <a href="#data-doa">Daftar & Histori Doa</a> 
         <a href="#video">Manajemen YouTube</a>
         <a href="#event">Manajemen Event</a>
         <a href="#galeri">Manajemen Galeri</a>
@@ -66,6 +98,121 @@ $data_galeri = file_exists('data_galeri.json') ? json_decode(file_get_contents('
             ✅ Aksi berhasil diselesaikan. Data telah diperbarui!
         </div>
         <?php endif; ?>
+        <?php if (isset($_GET['msg']) && $_GET['msg'] == 'sukses_semua') : ?>
+        <div class="alert-success-admin">
+            ✅ Semua permohonan doa yang pending berhasil dikonfirmasi sekaligus!
+        </div>
+        <?php endif; ?>
+<!-- ======================================================================================= -->
+        <div class="summary-grid">
+            <div class="summary-card total">
+                <div class="summary-header">
+                    <div class="summary-icon total">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    </div>
+                    <div class="summary-number total"><?= $count_total ?></div>
+                </div>
+                <div class="summary-label">Total Semua Doa Masuk</div>
+            </div>
+
+            <div class="summary-card pending">
+                <div class="summary-header">
+                    <div class="summary-icon pending">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="summary-number pending"><?= $count_pending ?></div>
+                </div>
+                <div class="summary-label">Menunggu Tinjauan (Pending)</div>
+            </div>
+
+            <div class="summary-card confirmed">
+                <div class="summary-header">
+                    <div class="summary-icon confirmed">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="summary-number confirmed"><?= $count_confirmed ?></div>
+                </div>
+                <div class="summary-label">Disetujui / Dikonfirmasi</div>
+            </div>
+        </div>
+
+        
+        <div class="card" id="data-doa">
+            <h3>📋 Histori & Peninjauan Pokok Doa</h3>
+            
+            <div class="tab-container">
+                <a href="admin_dashboard.php?filter=<?= $filter ?>&tab=Pending&search=<?= urlencode($search_query) ?>#data-doa" class="tab-btn <?= $tab_status == 'Pending' ? 'active' : '' ?>">⏳ Menunggu Konfirmasi (Pending)</a>
+                <a href="admin_dashboard.php?filter=<?= $filter ?>&tab=Dikonfirmasi&search=<?= urlencode($search_query) ?>#data-doa" class="tab-btn <?= $tab_status == 'Dikonfirmasi' ? 'active' : '' ?>">✔ Sudah Dikonfirmasi (Histori)</a>
+            </div>
+
+            <div class="table-controls">
+                <form method="GET" action="admin_dashboard.php" class="search-form">
+                    <input type="hidden" name="filter" value="<?= htmlspecialchars($filter) ?>">
+                    <input type="hidden" name="tab" value="<?= htmlspecialchars($tab_status) ?>">
+                    <input type="text" name="search" placeholder="Cari Nama Pengirim / Pokok Doa..." value="<?= htmlspecialchars($search_query) ?>">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                    <?php if(!empty($search_query)): ?>
+                        <a href="admin_dashboard.php?filter=<?= $filter ?>&tab=<?= $tab_status ?>#data-doa" class="btn btn-danger">Reset</a>
+                    <?php endif; ?>
+                </form>
+
+                <?php if($tab_status == 'Pending' && $total_data > 0): ?>
+                    <button type="button" onclick="bukaModal('admin_dashboard.php?filter=<?= $filter ?>&aksi=konfirmasi_semua', 'Apakah Anda yakin ingin menyetujui dan mengonfirmasi SEMUANYA sekaligus? Tindakan ini akan memproses semua doa pending.')" class="btn btn-success">✔ Konfirmasi Semua Doa</button>
+                <?php endif; ?>
+            </div>
+            
+            <div class="table-responsive">
+                <table style="margin-top: 0;">
+                    <thead>
+                        <tr>
+                            <th width="18%">Tanggal Masuk</th>
+                            <th width="22%">Nama Pengirim</th>
+                            <th>Isi Permohonan Doa</th>
+                            <th width="15%">Status</th>
+                            <th width="12%">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($conn && $total_data > 0): ?>
+                            <?php while ($row_tabel = mysqli_fetch_assoc($result_tabel)): ?>
+                            <tr>
+                                <td><?= date('d M Y, H:i', strtotime($row_tabel['tanggal_dibuat'])) ?></td>
+                                <td><strong><?= htmlspecialchars($row_tabel['nama_pengirim']) ?></strong></td>
+                                <td><?= nl2br(htmlspecialchars($row_tabel['isi_doa'])) ?></td>
+                                <td>
+                                    <?php if ($row_tabel['status'] == 'Dikonfirmasi'): ?>
+                                        <span class="status-badge status-confirmed">✔ Dikonfirmasi</span>
+                                    <?php else: ?>
+                                        <span class="status-badge status-pending">⏳ Pending</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($row_tabel['status'] !== 'Dikonfirmasi'): ?>
+                                        <button type="button" onclick="bukaModal('admin_dashboard.php?filter=<?= $filter ?>&aksi=konfirmasi_doa&id=<?= $row_tabel['id'] ?>', 'Konfirmasi bahwa permohonan doa dari <?= htmlspecialchars(addslashes($row_tabel['nama_pengirim'])) ?> telah diterima dan diteruskan ke tim pendoa?')" class="btn btn-success" style="font-size: 0.8em; padding: 5px 10px;">Konfirmasi</button>
+                                    <?php else: ?>
+                                        <span style="color: #94a3b8; font-size: 0.85em; font-style: italic;">Selesai</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #94a3b8; font-style: italic; padding: 20px;">Tidak ada data permohonan doa yang sesuai dengan kriteria penelusuran Anda.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <?php if ($total_pages > 1): ?>
+                <div class="pagination">
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <a href="admin_dashboard.php?filter=<?= $filter ?>&tab=<?= $tab_status ?>&search=<?= urlencode($search_query) ?>&page=<?= $i ?>#data-doa" class="page-link <?= ($page == $i) ? 'active' : '' ?>"><?= $i ?></a>
+                    <?php endfor; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+<!-- ======================================================================================= -->
 
         <div class="card" id="video">
         <h3>🎥 Manajemen Video Utama di Website</h3>
@@ -172,6 +319,16 @@ $data_galeri = file_exists('data_galeri.json') ? json_decode(file_get_contents('
         </table>
         </div>
 
+    </div>
+        <div id="customConfirmModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="margin-top:0; color:#1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;">Konfirmasi Aksi</h3>
+            <p id="modalMessage">Pesan teks konfirmasi akan dicetak di area ini secara dinamis.</p>
+            <div class="modal-buttons">
+                <button type="button" onclick="tutupModal()" class="btn btn-danger">Batalkan</button>
+                <a href="#" id="modalConfirmBtn" class="btn btn-primary">Ya, Konfirmasi</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
