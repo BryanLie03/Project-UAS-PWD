@@ -1468,105 +1468,189 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
    CSS BAGIAN GALERI
    ==================================== */
 
-.hero-galeri {
-  height: 100vh;
-  background: #0d36b3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: var(--main-font);
 }
 
-.hero-galeri h1 {
-  color: white;
-  font-size: 50px;
-  font-weight: bold;
+.hero-galeri{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background:#252525; /* fallback warna kalau gambar belum ke-load */
 }
 
-.galeri-container {
-  width: 80%;
-  max-width: 1200px;
-  margin: 40px auto;
+.hero-galeri .slide{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
 
-.breadcrumb {
-  margin-bottom: 30px;
-  font-size: 14px;
+
+.hero-galeri .slide.active{
+    opacity: 1;
 }
 
-.breadcrumb a {
-  text-decoration: none;
-  color: #666;
+.hero-galeri .hero-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #303030 0%, rgba(13, 33, 55, 0.644) 90%, rgba(0, 0, 0, 0.3) 200%);
+    z-index: 2;
 }
 
-.breadcrumb a:hover {
-  color: #0d36b3;
+.hero-galeri .hero-overlay h1{
+    font-size: 90px;
+    font-weight: 800;
+    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.5) 90%, rgba(255, 255, 255, 0.473) 200%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* fallback untuk browser yang gak support background-clip:text */
 }
 
-.breadcrumb .active {
-  font-weight: bold;
-  color: black;
+.hero-galeri .hero-overlay p{
+    font-size: 20px;
+    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.5) 90%, rgba(255, 255, 255, 0.473) 200%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* fallback untuk browser yang gak support background-clip:text */
 }
 
-.filter {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
+.hero-galeri h1{
+    color: var(--white-color);
+    font-size:50px;
+    font-weight:bold;
+    
 }
 
-.filter select {
-  width: 300px;
-  padding: 20px 20px;
-  border: none;
-  border-radius: 25px;
-  background: #0d36b3;
-  color: white;
-  cursor: pointer;
-  font-size: 15px; 
-  font-weight: 500;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-  background-repeat: no-repeat;
-  background-position: right 25px center; 
-  background-size: 20px;
+.galeri-container{
+    width:150%;
+    max-width:1200px;
+    margin:40px auto;
 }
 
-.galeri-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  justify-content: center;
+.breadcrumb{
+    margin-bottom:30px;
+    font-size:14px;
 }
 
-.card {
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  border-radius: 25px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+.breadcrumb a{
+    text-decoration:none;
+    color: var(--dark-text-color);
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.breadcrumb a:hover{
+    color: var(--primary-color);
 }
 
-.card img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  display: block;
+.breadcrumb .active{
+    font-weight:bold;
+    color: var(--black-color);
 }
 
-.card h3 {
-  padding: 15px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
+.filter{
+    display:flex;
+    justify-content:center;
+    margin-bottom:40px;
 }
 
+.filter select{
+    width:300px;
+    padding: 20px 20px;
+    border:none;
+    border-radius:25px;
+    background: var(--primary-color);
+    color: var(--white-color);
+    cursor:pointer;
+    font-size: 15px; 
+    font-weight: 500;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 25px center; 
+    background-size: 20px;
+}
+
+
+.galeri-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:40px;
+    justify-content:center;
+}
+
+.card{
+    width:100%;
+    max-width:700px;
+    margin:auto;
+    background: var(--white-color);
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:200%;
+    height:400px;
+    object-fit:cover;
+    display:block;
+}
+
+.card h3{
+    padding:15px;
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+}
+
+.foto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 24px 8px;
+}
+.foto-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    max-width: 1000%;
+}
+
+.hero-detail {
+    background-color: var(--dark-color); /* atau samakan dengan warna tema navbar */
+    padding: 60px 40px 40px;
+    text-align: left;
+}
+.hero-detail h1 {
+    color: var(--white-color);
+    font-size: 2.5rem;
+    margin: 0;
+}
 
 /* ====================================
    MEDIA QUERIES (RESPONSIVE)
