@@ -19,7 +19,6 @@ body {
   overflow-x: hidden;
 }
 
-/* SIDEBAR & TOGGLE */
 .sidebar {
   width: 260px;
   background-color: var(--sidebar-bg);
@@ -70,7 +69,7 @@ body {
   max-width: 180px;
   transition: 0.3s;
 }
-/* Default: Logo Full tampil, Logo Min disembunyikan */
+
 .logo-full {
   display: block;
 }
@@ -78,13 +77,12 @@ body {
   display: none;
 }
 
-/* Saat Sidebar di-minimize (class .collapsed aktif) */
 .sidebar.collapsed .logo-full {
   display: none;
 }
 .sidebar.collapsed .logo-min {
   display: block;
-  max-width: 40px; /* Sesuaikan ukuran logo kecilnya */
+  max-width: 40px; 
   margin: 0 auto;
 }
 
@@ -135,7 +133,6 @@ body {
   justify-content: center;
 }
 
-/* CONTENT MAIN */
 .main-content {
   flex: 1;
   margin-left: 260px;
@@ -182,7 +179,6 @@ body {
   font-size: 24px;
 }
 
-/* CARDS */
 .card {
   background-color: var(--card-bg);
   border-radius: 12px;
@@ -211,7 +207,6 @@ body {
   color: var(--primary-color);
 }
 
-/* SUMMARY CARDS */
 .summary-grid {
   display: flex;
   gap: 20px;
@@ -293,7 +288,6 @@ body {
   font-weight: 500;
 }
 
-/* BUTTONS */
 .btn {
   padding: 10px 16px;
   border: none;
@@ -331,9 +325,8 @@ body {
 .btn-icon-only {
   padding: 8px 12px;
   font-size: 1.1em;
-} /* For action buttons */
+} 
 
-/* FORMS & TABLES */
 input[type="text"],
 input[type="date"],
 input[type="file"],
@@ -390,7 +383,6 @@ tr:hover td {
   border: 1px solid #e2e8f0;
 }
 
-/* TABS & PAGINATION */
 .tab-container {
   display: flex;
   gap: 10px;
@@ -442,7 +434,6 @@ tr:hover td {
   font-weight: bold;
 }
 
-/* STATUS BADGES & ALERTS */
 .status-badge {
   padding: 6px 12px;
   border-radius: 20px;
@@ -492,7 +483,6 @@ tr:hover td {
   color: white;
 }
 
-/* MODALS */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -544,7 +534,6 @@ tr:hover td {
   z-index: 10001 !important;
 }
 
-/* YT Layout */
 .active-video-set {
   border: 1px solid #e2e8f0;
   border-radius: 12px;

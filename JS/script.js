@@ -1,6 +1,3 @@
-// ====================================
-// 1. NAVBAR SCROLL EFFECT
-// ====================================
 window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
   if (navbar) {
@@ -12,9 +9,6 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// ====================================
-// 2. SLIDER LOGIC
-// ====================================
 const track = document.getElementById("slider-track");
 const btnLeft = document.getElementById("btn-left");
 const btnRight = document.getElementById("btn-right");
@@ -38,9 +32,6 @@ if (btnLeft) {
   });
 }
 
-// ====================================
-// 3. SEJARAH AUTO-SCROLL
-// ====================================
 const sejarahTrack = document.getElementById("sejarah-track");
 const dots = document.querySelectorAll(".sejarah-dot .dot");
 let autoScrollTimer;
@@ -95,9 +86,6 @@ dots.forEach((dot, index) => {
   });
 });
 
-// ====================================
-// 4. ANIMASI MUNCUL (SCROLL)
-// ====================================
 function muncul() {
   var elements = document.querySelectorAll(".animasi-muncul");
   for (var i = 0; i < elements.length; i++) {
@@ -112,9 +100,6 @@ function muncul() {
 window.addEventListener("scroll", muncul);
 muncul();
 
-// ====================================
-// 5. FORM DOA & VALIDASI TANGGAL
-// ====================================
 const formDoa = document.getElementById("doa-form");
 const inputTanggal = document.getElementById("tanggal_doa");
 const inputDoa = document.getElementById("isi-doa");
@@ -161,9 +146,6 @@ if (formDoa && inputTanggal && inputDoa && btnSubmitDoa) {
   });
 }
 
-// ====================================
-// 6. TOMBOL SCROLL KE ATAS
-// ====================================
 const btnScrollTop = document.getElementById("btn-scroll-top");
 
 if (btnScrollTop) {

@@ -1,6 +1,5 @@
 <?php
 include "security.php";
-// Mencegah user yang sudah login untuk membuka halaman register
 prevent_login_bypass("index.php");
 ?>
 <!DOCTYPE html>

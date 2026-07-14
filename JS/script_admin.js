@@ -1,14 +1,8 @@
-/* ====================================
-   SIDEBAR TOGGLE
-   ==================================== */
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("collapsed");
   document.getElementById("mainContent").classList.toggle("expanded");
 }
 
-/* ====================================
-   MODAL MANAGER
-   ==================================== */
 function bukaModalBasic(idModal) {
   const modal = document.getElementById(idModal);
   if (modal) modal.classList.add("show");
@@ -24,14 +18,12 @@ function tutupModalBasic(idModal) {
   }
 }
 
-/* Modal Konfirmasi Hapus/Aksi Biasa */
 function bukaModalConfirm(urlAksi, pesan) {
   document.getElementById("modalMessage").textContent = pesan;
   document.getElementById("modalConfirmBtn").href = urlAksi;
   bukaModalBasic("customConfirmModal");
 }
 
-/* Modal Peringatan Hapus Event (Jika Ada Foto) */
 function hapusEvent(id_event, nama_event, photo_count) {
   if (photo_count > 0) {
     document.getElementById("warningEventName").textContent = nama_event;
@@ -47,7 +39,6 @@ function hapusEvent(id_event, nama_event, photo_count) {
   }
 }
 
-/* Modal Edit Data */
 function bukaEditEvent(id, nama, tanggal, deskripsi) {
   document.getElementById("edit_id_event").value = id;
   document.getElementById("edit_nama_event").value = nama;
@@ -62,31 +53,23 @@ function bukaEditGaleri(id_gallery, id_event) {
   bukaModalBasic("modalEditGaleri");
 }
 
-/* ====================================
-   FITUR NAMBAH MASSAL GALERI
-   ==================================== */
 function cekLimitUpload(input) {
-  const maxFiles = 4; // Batas maksimal foto
+  const maxFiles = 4; 
   const maxTotalSizeMB = 40;
   const maxTotalSizeBytes = maxTotalSizeMB * 1024 * 1024;
 
-  // 1. Cek jumlah file (Client-side)
   if (input.files.length > maxFiles) {
-    // Menampilkan pesan ke modal
     document.getElementById("infoModalMessage").innerHTML =
       "<strong style='color:red;'>Gagal!</strong><br>Anda tidak bisa mengupload lebih dari <strong>" +
       maxFiles +
       " foto</strong> sekaligus. Silakan kurangi jumlah foto Anda.";
 
-    // Membuka modal agar muncul di paling depan
     bukaModalBasic("infoModal");
 
-    // Mereset input file agar file yang dipilih tadi tidak terkirim
     input.value = "";
     return;
   }
 
-  // 2. Cek total ukuran file
   let totalSize = 0;
   for (let i = 0; i < input.files.length; i++) {
     totalSize += input.files[i].size;
@@ -105,9 +88,6 @@ function cekLimitUpload(input) {
   }
 }
 
-/* ====================================
-   FITUR HAPUS MASSAL GALERI
-   ==================================== */
 function toggleCheckAll(source) {
   const checkboxes = document.querySelectorAll(
     'input[name="id_galeri_hapus[]"]',
@@ -116,43 +96,35 @@ function toggleCheckAll(source) {
 }
 
 function aktifkanModeHapus() {
-  // 1. Tampilkan checkbox select all di header
   document.getElementById("chkSemua").style.display = "inline-block";
 
-  // 2. Tampilkan semua checkbox item galeri yang tersembunyi
   let checkboxes = document.querySelectorAll(".chk-foto-galeri");
   checkboxes.forEach(function (chk) {
     chk.style.display = "inline-block";
   });
 
-  // 3. Sembunyikan tombol "Mode Hapus", tampilkan tombol "Eksekusi" dan "Batal"
   document.getElementById("btnModeHapus").style.display = "none";
   document.getElementById("btnEksekusiHapus").style.display = "inline-block";
-  document.getElementById("btnBatalHapus").style.display = "inline-block"; // MENAMPILKAN TOMBOL BATAL
+  document.getElementById("btnBatalHapus").style.display = "inline-block"; 
 }
 
-// FUNGSI BARU UNTUK MEMBATALKAN MODE HAPUS
 function batalkanModeHapus() {
-  // 1. Sembunyikan & hilangkan centang pada checkbox 'Pilih Semua'
   let chkSemua = document.getElementById("chkSemua");
   chkSemua.style.display = "none";
   chkSemua.checked = false;
 
-  // 2. Sembunyikan & hilangkan centang pada semua checkbox galeri
   let checkboxes = document.querySelectorAll(".chk-foto-galeri");
   checkboxes.forEach(function (chk) {
     chk.style.display = "none";
-    chk.checked = false; // Membersihkan centang sebelumnya
+    chk.checked = false; 
   });
 
-  // 3. Tampilkan kembali tombol "Mode Hapus", sembunyikan tombol "Eksekusi" dan "Batal"
   document.getElementById("btnModeHapus").style.display = "inline-block";
   document.getElementById("btnEksekusiHapus").style.display = "none";
   document.getElementById("btnBatalHapus").style.display = "none";
 }
 
 function prosesHapusMassal() {
-  // Ambil semua checkbox yang dicentang
   const checked = document.querySelectorAll(
     'input[name="id_galeri_hapus[]"]:checked',
   );
@@ -164,16 +136,13 @@ function prosesHapusMassal() {
     return;
   }
 
-  // Ambil jumlah foto yang dipilih
   const jumlahFoto = checked.length;
 
-  // Ganti teks di modal secara dinamis
   document.getElementById("pesanHapusMassal").innerHTML =
     "Anda yakin ingin menghapus <strong>" +
     jumlahFoto +
     "</strong> foto yang telah dicentang secara permanen?";
 
-  // Buka modal
   bukaModalBasic("confirmHapusMassalModal");
 }
 
@@ -181,9 +150,6 @@ function submitHapusMassal() {
   document.getElementById("formGaleriMassal").submit();
 }
 
-/* ====================================
-   PEMBERSIH NOTIFIKASI OTOMATIS (FLOATING)
-   ==================================== */
 document.addEventListener("DOMContentLoaded", function () {
   const alerts = document.querySelectorAll(".alert-floating");
   if (alerts.length > 0) {
@@ -204,9 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-/* ====================================
-   AUTO-SAVE CHECKBOX EVENT
-   ==================================== */
 document.addEventListener("DOMContentLoaded", function () {
   const checkboxesEvent = document.querySelectorAll(".check-tampil-event");
   if (checkboxesEvent.length > 0) {

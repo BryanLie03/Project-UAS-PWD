@@ -1,17 +1,13 @@
 <?php
 include "header.php";
 
-// 1. Inisialisasi variabel agar tidak error
 $data_video_cms = null;
 
-// 2. Ambil data video terbaru dari database MySQL
 $query = mysqli_query($conn, "SELECT Title, link FROM youtube ORDER BY id_youtube DESC LIMIT 1");
 
 if ($query && mysqli_num_rows($query) > 0) {
     $row = mysqli_fetch_assoc($query);
     
-    // 3. Mapping data dari database ke variabel yang dicari oleh HTML Anda
-    // Kita menyesuaikan key-nya agar sesuai dengan kode HTML section youtube Anda
     $data_video_cms = [
         'judul'    => $row['Title'],
         'id_video' => $row['link']
@@ -22,7 +18,7 @@ if ($query && mysqli_num_rows($query) > 0) {
 <main>
   <section class="hero">
     <div class="hero-overlay">
-      <h1>BERTUMBUH<br />BERAKAR<br />BERBUAH<br />DIDALAM KRISTUS</h1>
+      <h1>BERTUMBUH<br />BERAKAR<br />BERBUAH<br />DI DALAM KRISTUS</h1>
       <p>
         Tempat bertumbuh dalam Kristus, mengalami kasih Tuhan, dan berjalan
         bersama dalam kebenaran
@@ -268,23 +264,18 @@ if ($query && mysqli_num_rows($query) > 0) {
       <h2 class="animasi-muncul">Kegiatan-Kegiatan di Gereja Yesus Sejati</h2>
 
       <?php
-      // 1. Memanggil data dari database tabel 'events', diurutkan dari yang terbaru
-      // Wajib gunakan tanda ` (backtick) untuk kata show
       $query_kegiatan = mysqli_query($conn, "SELECT * FROM events WHERE `show` = 1 ORDER BY date DESC LIMIT 5");
-      $no = 0; // Variabel penghitung urutan
+      $no = 0; 
 
-      // 2. Mengecek apakah ada data di database
       if ($query_kegiatan && mysqli_num_rows($query_kegiatan) > 0) :
           while ($row = mysqli_fetch_assoc($query_kegiatan)) :
               
-              // 3. Logika Kiri-Kanan: Jika $no ganjil (1, 3, 5), tambahkan class 'reverse'
               $class_reverse = ($no % 2 != 0) ? ' reverse' : '';
       ?>
       
             <div class="image-kegiatan<?= $class_reverse ?> animasi-muncul">
               
               <?php 
-                // Memastikan gambar ada. Jika admin lupa upload gambar, hindari gambar error.
                 $gambar_path = !empty($row['image']) ? "uploads/event/" . htmlspecialchars($row['image']) : "Assets/img/KPI.jpeg"; 
               ?>
               <img src="<?= $gambar_path ?>" alt="<?= htmlspecialchars($row['event']) ?>">  
@@ -298,7 +289,7 @@ if ($query && mysqli_num_rows($query) > 0) {
             </div>
 
       <?php
-              $no++; // Tambahkan angka penghitung setiap kali selesai mencetak 1 kartu
+              $no++; 
           endwhile;
       else :
       ?>
@@ -422,7 +413,6 @@ if ($query && mysqli_num_rows($query) > 0) {
       </div>
       
       <?php 
-      // Notifikasi alert menggunakan class dari style.css tanpa inline style
       if (isset($_GET['pesan_doa'])) {
         if ($_GET['pesan_doa'] == 'sukses') {
           echo '<div class="alert alert-success">Terima kasih! Permohonan doa Anda telah kami terima.</div>';
@@ -433,7 +423,6 @@ if ($query && mysqli_num_rows($query) > 0) {
       ?>
 
       <?php 
-      // Pengecekan status login jemaat/user
       if (isset($_SESSION['status']) && $_SESSION['status'] === 'login') : 
       ?>
 

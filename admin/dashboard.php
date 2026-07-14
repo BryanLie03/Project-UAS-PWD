@@ -2,7 +2,7 @@
 include "../security.php"; 
 require_login();
 require_role("admin");
-require_once '../koneksi.php'; 
+require_once '../connection.php'; 
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -20,7 +20,6 @@ $offset_doa = ($page_doa - 1) * $limit;
 $offset_event = ($page_event - 1) * $limit;
 $offset_galeri = ($page_galeri - 1) * $limit;
 
-// 1. Hitung Statistik Doa
 $count_pending = 0; $count_confirmed = 0; $count_total = 0;
 if ($conn) {
     try {
@@ -33,7 +32,6 @@ if ($conn) {
     } catch (Exception $e) {}
 }
 
-// 2. Query Doa
 $total_pages_doa = 0; $result_doa = null;
 if ($conn) {
     $where_clause = "WHERE p.status = '$tab_status'";
@@ -45,7 +43,6 @@ if ($conn) {
     $result_doa = mysqli_query($conn, "SELECT p.id_pray, p.pray, p.date, p.status, u.full_name FROM prayers p JOIN users u ON p.id_user = u.id_user $where_clause ORDER BY p.date DESC LIMIT $limit OFFSET $offset_doa");
 }
 
-// 3. Query Event (Menghitung jumlah foto per event untuk warning)
 $total_pages_event = 0; $result_event = null;
 if ($conn) {
     $q_tot_event = mysqli_query($conn, "SELECT COUNT(*) as jml FROM events");
@@ -57,7 +54,6 @@ if ($conn) {
     ");
 }
 
-// 4. Query Galeri (Dengan Filter)
 $total_pages_galeri = 0; $result_galeri = null;
 if ($conn) {
     $where_galeri = "";
@@ -80,7 +76,6 @@ if ($conn) {
     ");
 }
 
-// 5. Youtube Database & API
 $api_key = 'AIzaSyBpSTSnnydglOfCEMO43doRrzDf-IMB62Y';
 $channel_id = 'UCxlTgEU_BloNnEXDdNfv-Dg'; 
 
@@ -102,7 +97,6 @@ if (isset($youtube_data['items'])) {
     }
 } elseif (isset($youtube_data['error'])) { $pesan_error_api = $youtube_data['error']['message']; }
 
-// Ambil data aktif dari tabel youtube
 $q_yt_aktif = mysqli_query($conn, "SELECT * FROM youtube ORDER BY id_youtube DESC LIMIT 1");
 $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_assoc($q_yt_aktif) : null;
 
@@ -132,18 +126,13 @@ function generatePaginationArray($current_page, $total_pages) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard GYS Pontianak</title>
-  <!-- Ikon Web -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../CSS/style_admin.css?v=<?php echo time(); ?>" />
 </head>
 <body>
-
-  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <!-- Logo Full (Tampil saat terbuka) -->
     <img src="../Assets/img/Logo-scrolled.png" alt="Logo Full" class="brand-logo-img logo-full">
-    <!-- Logo Minimize (Tampil saat ditutup) -->
     <img src="../Assets/img/logo-minimize.png" alt="Logo Min" class="brand-logo-img logo-min">
     </div>
     <a href="#grafik"><i class="fa-solid fa-chart-pie"></i> <span class="sidebar-text">Statistik Doa</span></a> 
@@ -165,11 +154,9 @@ function generatePaginationArray($current_page, $total_pages) {
         <h1 class="header-title">Dashboard Manajemen Konten</h1>
     </div>
 
-    <!-- NOTIFIKASI FLOATING -->
     <?php 
     $msg = $_GET['msg'] ?? '';
     if (!empty($msg)) : 
-      // Cek apakah pesan sukses biasa atau error
       $is_error = (strpos($msg, 'err') !== false || (isset($_GET['gagal']) && $_GET['gagal'] > 0));
       
       echo '<div class="alert-floating ' . ($is_error ? 'alert-danger-admin' : 'alert-success-admin') . '">';
@@ -183,7 +170,6 @@ function generatePaginationArray($current_page, $total_pages) {
       elseif ($msg == 'sukses_semua') echo 'Semua doa berhasil dikonfirmasi!';
       elseif ($msg == 'hapus_massal_sukses') echo 'Foto terpilih berhasil dihapus!';
       
-      // PESAN BARU UNTUK MULTI UPLOAD
       elseif ($msg == 'upload_multi') {
           $sukses = (int)$_GET['sukses'];
           $gagal = (int)$_GET['gagal'];
@@ -199,7 +185,6 @@ function generatePaginationArray($current_page, $total_pages) {
     endif;
     ?>
 
-    <!-- STATISTIK DOA -->
     <div class="summary-grid" id="grafik">
       <div class="summary-card total">
         <div class="summary-header">
@@ -224,7 +209,6 @@ function generatePaginationArray($current_page, $total_pages) {
       </div>
     </div>
 
-    <!-- TABEL DOA -->
     <div class="card" id="data-doa">
       <div class="card-header">
           <h3><i class="fa-solid fa-hands-praying"></i> Histori & Peninjauan Doa</h3>
@@ -256,7 +240,7 @@ function generatePaginationArray($current_page, $total_pages) {
             <th width="20%">Pengirim</th>
             <th>Isi Doa</th>
             <th width="12%">Status</th>
-            <th width="10%"></th> <!-- Header kosong untuk Aksi -->
+            <th width="10%"></th> 
           </tr>
           <?php if ($result_doa && mysqli_num_rows($result_doa) > 0): ?>
             <?php while ($row_tabel = mysqli_fetch_assoc($result_doa)): ?>
@@ -303,7 +287,6 @@ function generatePaginationArray($current_page, $total_pages) {
         </div>
       <?php endif; ?>
 
-    <!-- YOUTUBE DB -->
     <div class="card" id="video">
       <div class="card-header">
           <h3><i class="fa-brands fa-youtube"></i> Manajemen Youtube</h3>
@@ -314,7 +297,6 @@ function generatePaginationArray($current_page, $total_pages) {
             <input type="text" name="judul_diedit" value="<?= htmlspecialchars($yt_aktif['Title']) ?>" required style="margin:0; font-weight:bold;">
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
           </form>
-          <!-- Generate Thumbnail dari link id_video -->
           <img src="https://img.youtube.com/vi/<?= htmlspecialchars($yt_aktif['link']) ?>/maxresdefault.jpg" alt="Thumbnail" style="width:100%; border-radius:8px; margin-bottom:10px;">
           <p style="color:#64748b; font-size:0.85em; margin:0;">Disetel pada: <?= date('d M Y H:i', strtotime($yt_aktif['date'])) ?></p>
         </div>
@@ -345,7 +327,6 @@ function generatePaginationArray($current_page, $total_pages) {
       </div>
     </div>
 
-    <!-- TABEL EVENT -->
     <div class="card" id="event">
       <div class="card-header">
           <h3><i class="fa-solid fa-calendar-days"></i> Manajemen Event</h3>
@@ -410,35 +391,29 @@ function generatePaginationArray($current_page, $total_pages) {
         </div>
       <?php endif; ?>
 
-    <!-- TABEL GALERI -->
     <div class="card" id="galeri">
       <div class="card-header">
           <h3><i class="fa-solid fa-images"></i> Manajemen Galeri Foto</h3>
           <div>
             <button class="btn btn-primary" onclick="bukaModalBasic('modalTambahGaleri')"><i class="fa-solid fa-upload"></i> Upload Foto</button>
             
-            <!-- Tombol Mode Hapus -->
             <button type="button" id="btnModeHapus" class="btn btn-danger" onclick="aktifkanModeHapus()">
                 <i class="fa-solid fa-trash"></i> Pilih Foto untuk Dihapus
             </button>
             
-            <!-- Tombol Batal Hapus (BARU) -->
             <button type="button" id="btnBatalHapus" class="btn" style="display: none; background-color: #64748b;" onclick="batalkanModeHapus()">
                 <i class="fa-solid fa-xmark"></i> Batal
             </button>
 
-            <!-- Tombol Eksekusi Hapus (Panggil JS, jangan gunakan tipe submit) -->
             <button type="button" id="btnEksekusiHapus" class="btn btn-danger" style="display: none;" onclick="prosesHapusMassal()">
                 <i class="fa-solid fa-check"></i> Hapus Foto Terpilih
             </button>
           </div>
       </div>
       
-      <!-- Filter Galeri -->
       <div style="margin-bottom: 20px; display:flex; gap:10px; align-items:center;">
         <label style="font-weight:600; color:var(--secondary-color);">Filter Event:</label>
         
-        <!-- Menggunakan JavaScript untuk mempertahankan posisi #galeri dan halaman tabel lainnya -->
         <select name="filter_galeri" onchange="window.location.href='dashboard.php?tab=<?= urlencode($tab_status) ?>&page_doa=<?= $page_doa ?>&page_event=<?= $page_event ?>&filter_galeri=' + this.value + '#galeri'" style="width:300px; margin:0;">
             <option value="all">-- Semua Event --</option>
             <?php
@@ -457,7 +432,6 @@ function generatePaginationArray($current_page, $total_pages) {
         <form id="formGaleriMassal" action="sv_dashboard.php?aksi=hapus_galeri_massal" method="POST">
             <table>
               <tr>
-                <!-- Checkbox "Select All" yang awalnya disembunyikan -->
                 <th width="5%" style="text-align:center;">
                     <input type="checkbox" id="chkSemua" onclick="toggleCheckAll(this)" style="transform:scale(1.3); cursor:pointer; display:none;">
                 </th>
@@ -470,7 +444,6 @@ function generatePaginationArray($current_page, $total_pages) {
                 <?php while ($row_g = mysqli_fetch_assoc($result_galeri)) : ?>
                 <tr>
                   <td style="text-align:center;">
-                  <!-- Perbaikan Typo variabel dari $row_galeri menjadi $row_g -->
                   <input type="checkbox" name="id_galeri_hapus[]" value="<?= $row_g['id_gallery'] ?>" class="chk-foto-galeri" style="transform:scale(1.3); cursor:pointer; display:none;">
                   </td>
                   <td><img src="../uploads/galeri/<?= htmlspecialchars($row_g['image_gallery']) ?>" class="img-preview"></td>
@@ -508,11 +481,8 @@ function generatePaginationArray($current_page, $total_pages) {
         </div>
       <?php endif; ?>
 
-  </div> <!-- End Main Content -->
+  </div> 
 
-  <!-- KUMPULAN MODAL (POP-UP) -->
-
-  <!-- 1. Modal Confirm Standard -->
   <div id="customConfirmModal" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-circle-question"></i> Konfirmasi Aksi</h3>
@@ -524,7 +494,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 2. Modal Warning Hapus Event (Jika ada foto) -->
   <div id="warningDeleteEventModal" class="modal-overlay">
     <div class="modal-box" style="border-top: 5px solid #ef4444;">
       <h3 style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Peringatan Sistem!</h3>
@@ -537,7 +506,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 3. Modal Info Auto-save / Alert Custom -->
   <div id="infoModal" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-circle-info"></i> Informasi Sistem</h3>
@@ -548,7 +516,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 4. Modal Tambah Event -->
   <div id="modalTambahEvent" class="modal-overlay">
     <div class="modal-box" style="width: 550px;">
       <h3><i class="fa-solid fa-calendar-plus"></i> Tambah Event Baru</h3>
@@ -569,7 +536,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 5. Modal Tambah Galeri -->
   <div id="modalTambahGaleri" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-upload"></i> Upload Foto Galeri</h3>
@@ -595,7 +561,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 6. Modal Edit Event -->
   <div id="modalEditEvent" class="modal-overlay">
     <div class="modal-box" style="width: 550px;">
       <h3><i class="fa-solid fa-pen-to-square"></i> Edit Event</h3>
@@ -617,7 +582,6 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-  <!-- 7. Modal Edit Galeri -->
   <div id="modalEditGaleri" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-pen-to-square"></i> Pindah Event Foto</h3>
@@ -642,11 +606,9 @@ function generatePaginationArray($current_page, $total_pages) {
     </div>
   </div>
 
-<!-- 8. Modal Confirm Hapus Massal -->
   <div id="confirmHapusMassalModal" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-circle-question"></i> Konfirmasi Hapus Massal</h3>
-      <!-- Tambahkan id="pesanHapusMassal" di bawah ini -->
       <p id="pesanHapusMassal">Anda yakin ingin menghapus foto yang telah dicentang secara permanen?</p>
       <div class="modal-buttons">
         <button type="button" onclick="tutupModalBasic('confirmHapusMassalModal')" class="btn btn-primary">Batal</button>

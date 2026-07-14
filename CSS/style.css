@@ -54,24 +54,23 @@
 body,
 html {
   height: 100%;
-  scroll-behavior: smooth; /* Membuat scroll menjadi halus */
+  scroll-behavior: smooth; 
 }
 
 .navbar {
-  display: flex; /* Membuat elemen berbais secara horizontal */
-  justify-content: space-between; /* Membuat elemen awal dan akhir memiliki distribusi jarak yang sama */
+  display: flex; 
+  justify-content: space-between; 
   align-items: center;
   padding: 25px 60px;
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 1000; /* Memastikan navbar berada di atas semua elemen */
+  z-index: 1000; 
   transition: all 0.4s ease;
   background: transparent;
 }
 
 .navbar.scrolled {
-  /* Perubahan pada bagian navbar saat di scroll */
   background-color: var(--secondary-color);
   padding: 30px 100px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -94,32 +93,29 @@ html {
 }
 
 .logo-scrolled {
-  /* Logo yang muncul saat navbar di scroll */
   position: absolute;
   left: 0;
   opacity: 0;
 }
 
 .navbar.scrolled .logo-awal {
-  /* Perubahan pada bagian logo saat navbar di scroll */
   opacity: 0;
 }
 
 .navbar.scrolled .logo-scrolled {
-  /* Perubahan pada bagian logo saat navbar di scroll */
   opacity: 1;
 }
 
 .nav-links {
   display: flex;
-  list-style: none; /* Menghilangkan bullet point dari list */
+  list-style: none; 
   gap: 25px;
   align-items: center;
 }
 
 .nav-links a {
   color: var(--white-color);
-  text-decoration: none; /* Menghilangkan garis bawah pada link */
+  text-decoration: none;
   font-size: 20px;
   font-weight: 600;
   transition: 0.3s;
@@ -127,7 +123,6 @@ html {
 }
 
 .nav-links a::after {
-  /* Efek garis putih di bawah link */
   content: "";
   position: absolute;
   width: 0;
@@ -195,7 +190,7 @@ html {
 
 .hero-overlay {
   background: linear-gradient(
-    /* Gradien untuk bagian hero */ to bottom,
+    to bottom,
     #080808 0%,
     rgba(13, 33, 55, 0.5) 90%,
     rgba(0, 0, 0, 0.3) 200%
@@ -203,7 +198,7 @@ html {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column; /* Mengatur arah flex menjadi vertikal */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -267,7 +262,6 @@ html {
 }
 
 .blue-frame::before {
-  /* Membuat frame biru di belakang gambar */
   content: "";
   position: absolute;
   bottom: -45px;
@@ -323,7 +317,6 @@ html {
 }
 
 .slider-wrapper {
-  /* Wadah untuk card pada bagian dasar kepercayaan */
   position: relative;
   display: flex;
   align-items: center;
@@ -331,7 +324,6 @@ html {
 }
 
 .slider-btn {
-  /* Tombol slider */
   background-color: var(--primary-color);
   color: var(--white-color);
   border: none;
@@ -339,12 +331,12 @@ html {
   width: 65px;
   height: 65px;
   font-size: 25px;
-  cursor: pointer; /* Agar cursor berubah saat dihover */
+  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(
     -50%
-  ); /* Memastikan tombol berada di tengah secara vertikal */
+  ); 
   z-index: 10;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -356,14 +348,13 @@ html {
 }
 
 .slider-wrapper:hover .slider-btn {
-  /* Menampilkan tombol slider saat cursor di bagian slider */
   opacity: 1;
   visibility: visible;
 }
 
 .slider-btn:hover {
   background-color: var(--dark-text-color);
-  transform: translateY(-50%) scale(1.1); /* Memperbesar tombol saat dihover */
+  transform: translateY(-50%) scale(1.1); 
 }
 
 #btn-left {
@@ -375,22 +366,20 @@ html {
 }
 
 .card-grid::-webkit-scrollbar {
-  /* Menghilangkan scrollbar untuk chrome dan safari */
   display: none;
 }
 
 .card-grid {
-  /* Menghilangkan scrollbar untuk Firefox dan Edge */
   -ms-overflow-style: none;
   scrollbar-width: none;
   display: flex;
   gap: 30px;
-  overflow-x: hidden; /* Menyembunyikan card yang diluar wrapper */
+  overflow-x: hidden; 
   scroll-behavior: smooth;
   padding-bottom: 20px;
   padding-top: 20px;
   align-items: stretch;
-  scroll-snap-type: x mandatory; /* Memastikan card berada di posisi yang benar */
+  scroll-snap-type: x mandatory; 
 }
 
 .icon1 {
@@ -404,7 +393,7 @@ html {
   background-color: var(--primary-color);
   min-width: calc(
     (100% - 60px) / 3
-  ); /* Mengatur agar hanya ada 3 card yang ditampilkan */
+  ); 
   border-radius: 25px;
   padding: 60px 35px 40px 35px;
   display: flex;
@@ -414,7 +403,7 @@ html {
   justify-content: flex-start;
   height: auto;
   min-height: 750px;
-  scroll-snap-align: start; /* Memastikan card berada di posisi yang benar */
+  scroll-snap-align: start; 
   transition: all 0.3s ease;
 }
 
@@ -444,7 +433,6 @@ html {
 }
 
 .icon-10 {
-  /* Alternatif untuk icon nomor 10 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -548,7 +536,6 @@ html {
 }
 
 .dot {
-  /* Dot untuk navigasi slider bagian sejarah */
   width: 25px;
   height: 25px;
   background-color: var(--light-gray-color);
@@ -558,7 +545,6 @@ html {
 }
 
 .dot.active {
-  /* Dot yang aktif */
   width: 45px;
   border-radius: 25px;
   background-color: var(--primary-color);
@@ -681,7 +667,6 @@ html {
 }
 
 .btn-klik:hover {
-  /* Efek saat tombol dihover */
   background-color: var(--light-gray-color);
   transform: translateY(-3px);
 }
@@ -689,7 +674,7 @@ html {
 .video-youtube {
   flex: 1;
   display: flex;
-  justify-content: flex-end; /* Membuat item berada di ujung kanan */
+  justify-content: flex-end;
 }
 
 .video-youtube iframe {
@@ -720,7 +705,7 @@ html {
 
 .jadwal-flex {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* membagi menjadi 2 kolom */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 85px;
   justify-content: center;
 }
@@ -738,16 +723,15 @@ html {
   max-width: 550px;
   min-height: 350px;
   transition: all 0.3s ease;
-  cursor: default; /* Memastikan curosr tidak berubah jadi pointer saat hoover */
+  cursor: default; 
 }
 
 .jadwal-box:hover {
-  /* Efek saat box jadwal dihover */
   transform: translateY(-15px) scale(1.03) !important;
   box-shadow:
     0 0 0 15px var(--primary-color),
     0 25px 50px rgba(30, 78, 161, 0.4) !important;
-  z-index: 10; /* Memastikan box yang dihover berada di atas box lainnya */
+  z-index: 10; 
 }
 
 .jadwal-box h3 {
@@ -1122,7 +1106,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 9999;
 
-  /* Menyembunyikan tombol secara default */
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
@@ -1131,10 +1114,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .btn-scroll-top:hover {
   background-color: var(--secondary-color);
-  transform: translateY(-5px); /* Efek terangkat saat disorot */
+  transform: translateY(-5px); 
 }
 
-/* Class ini akan ditambahkan oleh JavaScript saat user scroll ke bawah */
 .btn-scroll-top.muncul {
   opacity: 1;
   visibility: visible;
@@ -1153,10 +1135,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ====================================
-   LOGIN & REGISTER
-   ==================================== */
 
 .login-page-wrapper {
   position: fixed;
@@ -1358,10 +1336,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   border: 1px solid #c8e6c9;
 }
 
-/* ====================================
-   PROFIL DROPDOWN & LOGOUT (VERSI BERSIH)
-   ==================================== */
-
 .nav-right {
   display: flex;
   align-items: center;
@@ -1372,7 +1346,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: inline-block;
 }
 
-/* JEMBATAN TRANSPARAN (Cukup ini saja) */
 .profile-dropdown::after {
   content: "";
   position: absolute;
@@ -1428,47 +1401,43 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: block;
 }
 
-/* Memperkuat warna agar tidak bertabrakan dengan navbar */
 .nav-links .dropdown-content a {
   color: var(--dark-text-color) !important;
   padding: 12px 16px;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 10px; /* Jarak antara ikon dan teks */
+  gap: 10px; 
   font-size: 14px;
   font-weight: 500;
   transition: 0.3s ease;
 }
 
-/* Mencegah efek garis putih navbar bocor */
 .nav-links .dropdown-content a::after {
   display: none !important;
 }
 
 .nav-links .dropdown-content a.admin-link:hover {
-  background-color: #f4f6f8 !important; /* Efek abu-abu muda */
+  background-color: #f4f6f8 !important; 
   color: var(--primary-color) !important;
-  padding-left: 20px; /* Animasi bergeser ke kanan */
+  padding-left: 20px; 
 }
 
 .nav-links .dropdown-content a.logout-link {
-  color: #e74c3c !important; /* Warna default merah */
-  border-top: 1px solid #f0f0f0; /* Garis pemisah antara dashboard dan logout */
+  color: #e74c3c !important; 
+  border-top: 1px solid #f0f0f0; 
 }
 
 .nav-links .dropdown-content a.logout-link:hover {
   background-color: #ffeaea !important;
   color: #c0392b !important;
-  padding-left: 20px; /* Animasi bergeser ke kanan */
+  padding-left: 20px; 
 }
 
-/* ====================================
-   CSS BAGIAN GALERI (FRONTEND)
-   ==================================== */
+
 .hero-galeri {
   position: relative;
-  height: 60vh; /* Sedikit diturunkan agar tidak selebar hero halaman depan */
+  height: 60vh; 
   min-height: 400px;
   overflow: hidden;
   background: #1e293b;
@@ -1526,7 +1495,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .galeri-container {
   width: 90%;
-  max-width: 1300px; /* Diperlebar agar ruang galeri lebih lega */
+  max-width: 1300px; 
   margin: 60px auto;
 }
 
@@ -1551,10 +1520,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   color: var(--black-color);
 }
 
-/* Perbaikan Dropdown */
 .filter {
   display: flex;
-  justify-content: flex-end; /* Memindahkan filter ke kanan agar rapi */
+  justify-content: flex-end; 
   margin-bottom: 40px;
 }
 
@@ -1585,11 +1553,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   box-shadow: 0 4px 12px rgba(30, 78, 161, 0.15);
 }
 
-/* Grid Cover (Halaman Depan Galeri) */
 .galeri-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Tetap 2 Kolom (5 Kiri, 5 Kanan) */
-  gap: 50px; /* Gap diperlebar agar tidak sesak */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 50px; 
 }
 
 .card {
@@ -1612,7 +1579,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .card-img-wrapper {
   width: 100%;
-  height: 350px; /* Tinggi cover diseragamkan */
+  height: 350px; 
   overflow: hidden;
 }
 
@@ -1636,10 +1603,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin: 0;
 }
 
-/* Grid Foto (Halaman Detail Event) */
+
 .foto-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 Kolom (5 Kiri, 5 Kanan) */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 40px;
 }
 
@@ -1661,7 +1628,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   transform: scale(1.03);
 }
 
-/* Pagination Khusus Frontend */
 .pagination-frontend {
   display: flex;
   justify-content: center;
@@ -1694,11 +1660,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   box-shadow: 0 4px 10px rgba(30, 78, 161, 0.3);
 }
 
-/* Penyesuaian Responsif Galeri */
+
 @media (max-width: 992px) {
   .galeri-grid,
   .foto-grid {
-    grid-template-columns: 1fr; /* Jadi 1 kolom di layar kecil */
+    grid-template-columns: 1fr; 
     gap: 30px;
   }
   .filter {
@@ -1709,9 +1675,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 }
 
-/* ====================================
-   MEDIA QUERIES (RESPONSIVE)
-   ==================================== */
 
 @media (max-width: 992px) {
   .welcome-flex,

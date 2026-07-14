@@ -1,11 +1,10 @@
 <?php
 session_start();
-include "koneksi.php";
+include "connection.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
   
-  // Validasi format email SEBELUM melakukan query ke database
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     header("Location: login.php?error=email");
     exit();
@@ -27,8 +26,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['status']    = "login";
 
     if (isset($_POST['remember'])) {
-      // Menyimpan ID user ke cookie selama 30 hari (30 * 24 * 3600 detik)
-      // Parameter terakhir 'true' untuk httponly agar lebih aman
       setcookie('user_id', $user['id_user'], time() + (30 * 24 * 3600), '/', '', false, true);
       setcookie('user_key', hash('sha256', $user['email']), time() + (30 * 24 * 3600), '/', '', false, true);
     }

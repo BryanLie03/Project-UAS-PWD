@@ -1,7 +1,6 @@
 <?php
 include "header.php";
 
-// 1. Ambil maksimal 5 foto acak dari database untuk Hero Slider
 $q_hero = mysqli_query($conn, "SELECT image_gallery FROM galleries ORDER BY RAND() LIMIT 5");
 $hero_images = [];
 if ($q_hero && mysqli_num_rows($q_hero) > 0) {
@@ -9,17 +8,14 @@ if ($q_hero && mysqli_num_rows($q_hero) > 0) {
         $hero_images[] = "uploads/galeri/" . $row['image_gallery'];
     }
 } else {
-    // Foto default jika galeri di database masih kosong sama sekali
     $hero_images[] = "Assets/img/gereja.jpeg"; 
 }
 
-// 2. Setup Pagination & Filter
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 $filter_id = isset($_GET['id_event']) ? $_GET['id_event'] : 'all';
 
-// 3. Query Dropdown (Hanya menampilkan event yang SUDAH memiliki foto di galeri)
 $q_dropdown = mysqli_query($conn, "
     SELECT DISTINCT e.id_event, e.event 
     FROM events e 
@@ -27,7 +23,6 @@ $q_dropdown = mysqli_query($conn, "
     ORDER BY e.date DESC
 ");
 
-// 4. Hitung Total Data untuk Pagination
 $where_clause = "";
 if ($filter_id !== 'all') {
     $id_clean = (int)$filter_id;
@@ -43,7 +38,6 @@ $q_total = mysqli_query($conn, "
 $total_data = mysqli_fetch_assoc($q_total)['jml'];
 $total_pages = ceil($total_data / $limit);
 
-// 5. Query Cover Galeri (Mengambil HANYA foto pertama yang diupload untuk tiap event)
 $q_cover = mysqli_query($conn, "
     SELECT e.id_event, e.event, g1.image_gallery as cover_image
     FROM events e
@@ -75,7 +69,6 @@ $q_cover = mysqli_query($conn, "
         <span class="active">Galeri</span>
     </div>
 
-    <!-- Dropdown Filter Dinamis -->
     <div class="filter">
         <select id="kategori" onchange="window.location.href='gallery.php?id_event='+this.value">
             <option value="all" <?= $filter_id === 'all' ? 'selected' : '' ?>>Semua Kategori Event</option>
@@ -87,7 +80,6 @@ $q_cover = mysqli_query($conn, "
         </select>
     </div>
 
-    <!-- Grid Cover Galeri -->
     <div class="galeri-grid">
         <?php if (mysqli_num_rows($q_cover) > 0) : ?>
             <?php while ($row_cover = mysqli_fetch_assoc($q_cover)) : ?>
@@ -105,7 +97,6 @@ $q_cover = mysqli_query($conn, "
         <?php endif; ?>
     </div>
 
-    <!-- Pagination -->
     <?php if ($total_pages > 1): ?>
         <div class="pagination-frontend">
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>

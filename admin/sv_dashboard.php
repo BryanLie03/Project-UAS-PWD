@@ -2,27 +2,23 @@
 include "../security.php"; 
 require_login();
 require_role("admin");
-include "../koneksi.php";
+include "../connection.php";
 
 $aksi = $_GET['aksi'] ?? '';
 $admin_aktif = $_SESSION['full_name'];
 
-// --- Fungsi Pembantu Validasi Gambar ---
 function validasiGambar($file) {
-    $max_size = 20 * 1024 * 1024; // 20 MB
+    $max_size = 20 * 1024 * 1024; 
     $allowed_ext = ['jpg', 'jpeg', 'png'];
 
-    // 1. Cek Error dari server (misal jika file melebihi limit php.ini)
     if ($file['error'] !== 0) {
         return false;
     }
 
-    // 2. Cek Ukuran File
     if ($file['size'] > $max_size) {
         return 'err_size'; 
     }
 
-    // 3. Cek Ekstensi File
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $allowed_ext)) {
         return 'err_type'; 
@@ -31,9 +27,6 @@ function validasiGambar($file) {
     return true;
 }
 
-// ==============================================================================
-// 1. PROSES EVENT 
-// ==============================================================================
 if ($aksi == 'tambah_event') {
     $nama      = $_POST['nama_event'];
     $tanggal   = $_POST['tanggal_event']; 
@@ -69,28 +62,24 @@ elseif ($aksi == 'edit_event') {
     $tanggal   = $_POST['tanggal_event']; 
     $deskripsi = trim($_POST['deskripsi_event']);
 
-    // Update dasar tanpa gambar
     $query = "UPDATE events SET event = ?, description = ?, date = ? WHERE id_event = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("sssi", $nama, $deskripsi, $tanggal, $id_event);
     $stmt->execute();
     $stmt->close();
 
-    // Jika upload gambar baru
     if (isset($_FILES['gambar_event']['name']) && $_FILES['gambar_event']['name'] != '') {
         $validasi = validasiGambar($_FILES['gambar_event']);
         if ($validasi !== true) {
             header("Location: dashboard.php?msg={$validasi}#event"); exit;
         }
 
-        // Hapus gambar lama
         $q_lama = mysqli_query($conn, "SELECT image FROM events WHERE id_event = $id_event");
         $row_lama = mysqli_fetch_assoc($q_lama);
         if (!empty($row_lama['image']) && file_exists('../uploads/event/' . $row_lama['image'])) {
             unlink('../uploads/event/' . $row_lama['image']);
         }
 
-        // Simpan gambar baru
         $nama_file = time() . '_' . basename($_FILES['gambar_event']['name']);
         move_uploaded_file($_FILES['gambar_event']['tmp_name'], '../uploads/event/' . $nama_file);
         
@@ -125,19 +114,15 @@ elseif ($aksi == 'toggle_tampil_event') {
 
     if ($conn) {
         if ($is_checked == 1) {
-            // Hitung total event yang sedang tampil (sudah dicentang sebelumnya)
             $q_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM events WHERE `show` = 1");
             $row_count = mysqli_fetch_assoc($q_count);
             
             if ($row_count['total'] >= 5) {
-                // Beritahu JavaScript bahwa aksinya ditolak
                 echo json_encode(['status' => 'error', 'msg' => 'Gagal: Anda hanya dapat memilih maksimal 5 event untuk ditampilkan di Halaman Depan!']);
                 exit;
             }
-            // Jika belum 5, izinkan pembaruan
             mysqli_query($conn, "UPDATE events SET `show` = 1 WHERE id_event = $id_event");
         } else {
-            // Jika menghapus centang
             mysqli_query($conn, "UPDATE events SET `show` = 0 WHERE id_event = $id_event");
         }
         echo json_encode(['status' => 'success']);
@@ -145,14 +130,10 @@ elseif ($aksi == 'toggle_tampil_event') {
     exit;
 }
 
-// ==============================================================================
-// 2. PROSES GALERI 
-// ==============================================================================
 elseif ($aksi == 'tambah_galeri') {
     $id_event = (int)$_POST['id_event'];
     $id_user = $_SESSION['id_user'];
     
-    // --- PROTEKSI BACKEND (Maksimal 4 File) ---
     if (count($_FILES['foto']['name']) > 4) {
         header("Location: dashboard.php?msg=err_limit_foto#galeri");
         exit;
@@ -162,12 +143,9 @@ elseif ($aksi == 'tambah_galeri') {
     $gagal_ukuran_tipe = 0;
     $total_files = count($_FILES['foto']['name']);
     
-    // Looping semua file yang diupload
     for ($i = 0; $i < $total_files; $i++) {
-        // Lewati jika file kosong atau error
         if ($_FILES['foto']['error'][$i] == 4) continue; 
 
-        // Buat array file tunggal buatan untuk dimasukkan ke fungsi validasiGambar
         $file_temp = [
             'name'     => $_FILES['foto']['name'][$i],
             'type'     => $_FILES['foto']['type'][$i],
@@ -176,7 +154,6 @@ elseif ($aksi == 'tambah_galeri') {
             'size'     => $_FILES['foto']['size'][$i]
         ];
 
-        // Jalankan validasi
         $cek_validasi = validasiGambar($file_temp);
         
         if ($cek_validasi === true) {
@@ -194,12 +171,10 @@ elseif ($aksi == 'tambah_galeri') {
                 $berhasil++;
             }
         } else {
-            // Jika gagal karena ukuran / ekstensi salah
             $gagal_ukuran_tipe++;
         }
     }
 
-    // Arahkan kembali ke dashboard dengan pesan detail
     header("Location: dashboard.php?msg=upload_multi&sukses=$berhasil&gagal=$gagal_ukuran_tipe#galeri");
     exit;
 }
@@ -258,21 +233,18 @@ elseif ($aksi == 'hapus_galeri') {
 elseif ($aksi == 'hapus_event_force') {
     $id_hapus = (int)$_GET['id'];
     if ($conn) {
-        // 1. Hapus SEMUA fisik foto galeri yang terikat
         $q_gal = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_event = $id_hapus");
         while ($row_gal = mysqli_fetch_assoc($q_gal)) {
             if (!empty($row_gal['image_gallery']) && file_exists('../uploads/galeri/' . $row_gal['image_gallery'])) {
                 unlink('../uploads/galeri/' . $row_gal['image_gallery']);
             }
         }
-        // 2. Hapus fisik foto Event
         $q_ev = mysqli_query($conn, "SELECT image FROM events WHERE id_event = $id_hapus");
         if ($row_ev = mysqli_fetch_assoc($q_ev)) {
             if (!empty($row_ev['image']) && file_exists('../uploads/event/' . $row_ev['image'])) {
                 unlink('../uploads/event/' . $row_ev['image']);
             }
         }
-        // 3. Hapus database Event (Otomatis Cascade hapus row Galeri)
         $stmt = $conn->prepare("DELETE FROM events WHERE id_event = ?");
         $stmt->bind_param("i", $id_hapus);
         $stmt->execute();
@@ -285,23 +257,18 @@ elseif ($aksi == 'hapus_galeri_massal') {
     if (isset($_POST['id_galeri_hapus']) && is_array($_POST['id_galeri_hapus'])) {
         foreach ($_POST['id_galeri_hapus'] as $id_g) {
             $id_bersih = (int)$id_g;
-            // Hapus fisik gambar
             $q_gambar = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_gallery = $id_bersih");
             if ($row = mysqli_fetch_assoc($q_gambar)) {
                 if (!empty($row['image_gallery']) && file_exists('../uploads/galeri/' . $row['image_gallery'])) {
                     unlink('../uploads/galeri/' . $row['image_gallery']); 
                 }
             }
-            // Hapus row DB
             mysqli_query($conn, "DELETE FROM galleries WHERE id_gallery = $id_bersih");
         }
     }
     header("Location: dashboard.php?msg=hapus_massal_sukses#galeri"); exit;
 }
-    
-// ==============================================================================
-// 3. PROSES DOA
-// ==============================================================================
+
 elseif ($aksi == 'konfirmasi_doa') {
     $id_pray = $_GET['id'] ?? 0;
     if ($id_pray > 0 && $conn) {

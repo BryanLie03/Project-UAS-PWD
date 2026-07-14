@@ -1,6 +1,6 @@
 <?php
 include "security.php";
-include "koneksi.php";
+include "connection.php";
 ?>
 <!doctype html>
 <html lang="id">
@@ -37,9 +37,8 @@ include "koneksi.php";
               <button class="profile-btn">
                 <?php 
                 $nama = $_SESSION['full_name'];
-                $inisial = substr($nama, 0, 1); // Ambil huruf pertama
+                $inisial = substr($nama, 0, 1); 
                 
-                // Jika ada spasi, ambil huruf pertama dari kata pertama dan kedua
                 if (strpos($nama, ' ') !== false) {
                   $pecah = explode(' ', $nama);
                   $inisial = strtoupper(substr($pecah[0], 0, 1) . substr($pecah[1], 0, 1));

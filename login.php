@@ -1,5 +1,5 @@
 <?php
-include "security.php"; // Panggil dari root
+include "security.php"; 
 prevent_login_bypass();
 ?>
 <!DOCTYPE html>

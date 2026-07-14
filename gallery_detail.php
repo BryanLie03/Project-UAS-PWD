@@ -3,30 +3,24 @@ include 'header.php';
 
 $id_event = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Validasi apakah event tersebut ada
 $q_event = mysqli_query($conn, "SELECT event FROM events WHERE id_event = $id_event");
 if (!$q_event || mysqli_num_rows($q_event) == 0) {
-    // Jika user iseng memasukkan ID ngawur di URL, kembalikan ke galeri
     header("Location: gallery.php");
     exit;
 }
 $nama_event = mysqli_fetch_assoc($q_event)['event'];
 
-// Pengaturan Pagination Halaman Detail
 $limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// Menghitung total foto di event ini
 $q_total = mysqli_query($conn, "SELECT COUNT(*) as jml FROM galleries WHERE id_event = $id_event");
 $total_data = mysqli_fetch_assoc($q_total)['jml'];
 $total_pages = ceil($total_data / $limit);
 
-// Mengambil 10 foto untuk halaman yang sedang aktif
 $q_foto = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_event = $id_event ORDER BY id_gallery DESC LIMIT $limit OFFSET $offset");
 
-// Cover hero dinamis (Mengambil gambar pertama dari event ini untuk latar atas)
-$cover_hero = "Assets/img/gereja.jpeg"; // Fallback awal
+$cover_hero = "Assets/img/gereja.jpeg"; 
 $q_cover = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_event = $id_event ORDER BY id_gallery ASC LIMIT 1");
 if ($row_cover = mysqli_fetch_assoc($q_cover)) {
     $cover_hero = "uploads/galeri/" . $row_cover['image_gallery'];
@@ -51,7 +45,6 @@ if ($row_cover = mysqli_fetch_assoc($q_cover)) {
         <span class="active"><?= htmlspecialchars($nama_event) ?></span>
     </div>
 
-    <!-- Grid Foto Detail -->
     <div class="foto-grid">
         <?php if (mysqli_num_rows($q_foto) > 0): ?>
             <?php while ($foto = mysqli_fetch_assoc($q_foto)): ?>
@@ -66,7 +59,6 @@ if ($row_cover = mysqli_fetch_assoc($q_cover)) {
         <?php endif; ?>
     </div>
 
-    <!-- Pagination Detail -->
     <?php if ($total_pages > 1): ?>
         <div class="pagination-frontend" style="margin-top: 40px;">
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
