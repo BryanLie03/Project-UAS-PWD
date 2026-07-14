@@ -434,6 +434,14 @@ tr:hover td {
   color: white;
 }
 
+.page-link.dots {
+  background: transparent;
+  color: #64748b;
+  pointer-events: none;
+  padding: 8px 5px;
+  font-weight: bold;
+}
+
 /* STATUS BADGES & ALERTS */
 .status-badge {
   padding: 6px 12px;
@@ -530,6 +538,10 @@ tr:hover td {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 25px;
+}
+
+#infoModal {
+  z-index: 10001 !important;
 }
 
 /* YT Layout */

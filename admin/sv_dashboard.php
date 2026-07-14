@@ -9,13 +9,26 @@ $admin_aktif = $_SESSION['full_name'];
 
 // --- Fungsi Pembantu Validasi Gambar ---
 function validasiGambar($file) {
-    $max_size = 7 * 1024 * 1024; // 7 MB
+    $max_size = 20 * 1024 * 1024; // 20 MB
     $allowed_ext = ['jpg', 'jpeg', 'png'];
-    $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-    if ($file['size'] > $max_size) return 'err_size';
-    if (!in_array($file_ext, $allowed_ext)) return 'err_type';
-    return 'ok';
+    // 1. Cek Error dari server (misal jika file melebihi limit php.ini)
+    if ($file['error'] !== 0) {
+        return false;
+    }
+
+    // 2. Cek Ukuran File
+    if ($file['size'] > $max_size) {
+        return 'err_size'; 
+    }
+
+    // 3. Cek Ekstensi File
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!in_array($ext, $allowed_ext)) {
+        return 'err_type'; 
+    }
+
+    return true;
 }
 
 // ==============================================================================
@@ -30,7 +43,7 @@ if ($aksi == 'tambah_event') {
 
     if (isset($_FILES['gambar_event']['name']) && $_FILES['gambar_event']['name'] != '') {
         $validasi = validasiGambar($_FILES['gambar_event']);
-        if ($validasi !== 'ok') {
+        if ($validasi !== true) {
             header("Location: dashboard.php?msg={$validasi}#event"); exit;
         }
 
@@ -66,7 +79,7 @@ elseif ($aksi == 'edit_event') {
     // Jika upload gambar baru
     if (isset($_FILES['gambar_event']['name']) && $_FILES['gambar_event']['name'] != '') {
         $validasi = validasiGambar($_FILES['gambar_event']);
-        if ($validasi !== 'ok') {
+        if ($validasi !== true) {
             header("Location: dashboard.php?msg={$validasi}#event"); exit;
         }
 
@@ -137,28 +150,58 @@ elseif ($aksi == 'toggle_tampil_event') {
 // ==============================================================================
 elseif ($aksi == 'tambah_galeri') {
     $id_event = (int)$_POST['id_event'];
-    $id_user  = $_SESSION['id_user']; 
+    $id_user = $_SESSION['id_user'];
+    
+    // --- PROTEKSI BACKEND (Maksimal 4 File) ---
+    if (count($_FILES['foto']['name']) > 4) {
+        header("Location: dashboard.php?msg=err_limit_foto#galeri");
+        exit;
+    }
+    
+    $berhasil = 0;
+    $gagal_ukuran_tipe = 0;
+    $total_files = count($_FILES['foto']['name']);
+    
+    // Looping semua file yang diupload
+    for ($i = 0; $i < $total_files; $i++) {
+        // Lewati jika file kosong atau error
+        if ($_FILES['foto']['error'][$i] == 4) continue; 
 
-    if (isset($_FILES['foto']['name']) && $_FILES['foto']['name'] != '') {
-        $validasi = validasiGambar($_FILES['foto']);
-        if ($validasi !== 'ok') {
-            header("Location: dashboard.php?msg={$validasi}#galeri"); exit;
-        }
+        // Buat array file tunggal buatan untuk dimasukkan ke fungsi validasiGambar
+        $file_temp = [
+            'name'     => $_FILES['foto']['name'][$i],
+            'type'     => $_FILES['foto']['type'][$i],
+            'tmp_name' => $_FILES['foto']['tmp_name'][$i],
+            'error'    => $_FILES['foto']['error'][$i],
+            'size'     => $_FILES['foto']['size'][$i]
+        ];
 
-        $dir_upload = '../uploads/galeri/';
-        if (!is_dir($dir_upload)) mkdir($dir_upload, 0777, true);
-        $nama_file = time() . '_' . basename($_FILES['foto']['name']);
-
-        if (move_uploaded_file($_FILES['foto']['tmp_name'], $dir_upload . $nama_file)) {
-            if ($conn) {
-                $stmt = $conn->prepare("INSERT INTO galleries (image_gallery, id_event, id_user) VALUES (?, ?, ?)");
-                $stmt->bind_param("sii", $nama_file, $id_event, $id_user);
+        // Jalankan validasi
+        $cek_validasi = validasiGambar($file_temp);
+        
+        if ($cek_validasi === true) {
+            $ext = strtolower(pathinfo($file_temp['name'], PATHINFO_EXTENSION));
+            $nama_file_baru = uniqid('gal_', true) . '.' . $ext;
+            $dir_upload = '../uploads/galeri/';
+            
+            if (!is_dir($dir_upload)) mkdir($dir_upload, 0777, true);
+            
+            if (move_uploaded_file($file_temp['tmp_name'], $dir_upload . $nama_file_baru)) {
+                $stmt = $conn->prepare("INSERT INTO galleries (id_event, id_user, image_gallery) VALUES (?, ?, ?)");
+                $stmt->bind_param("iis", $id_event, $id_user, $nama_file_baru);
                 $stmt->execute();
                 $stmt->close();
+                $berhasil++;
             }
+        } else {
+            // Jika gagal karena ukuran / ekstensi salah
+            $gagal_ukuran_tipe++;
         }
     }
-    header("Location: dashboard.php?msg=galeri_sukses#galeri"); exit;
+
+    // Arahkan kembali ke dashboard dengan pesan detail
+    header("Location: dashboard.php?msg=upload_multi&sukses=$berhasil&gagal=$gagal_ukuran_tipe#galeri");
+    exit;
 }
 
 elseif ($aksi == 'edit_galeri') {
@@ -174,7 +217,7 @@ elseif ($aksi == 'edit_galeri') {
 
     if (isset($_FILES['foto']['name']) && $_FILES['foto']['name'] != '') {
         $validasi = validasiGambar($_FILES['foto']);
-        if ($validasi !== 'ok') {
+        if ($validasi !== true) {
             header("Location: dashboard.php?msg={$validasi}#galeri"); exit;
         }
 
@@ -211,8 +254,6 @@ elseif ($aksi == 'hapus_galeri') {
     }
     header("Location: dashboard.php?msg=galeri_hapus#galeri"); exit;
 }
-
-    // ... Kode lama sv_dashboard ...
 
 elseif ($aksi == 'hapus_event_force') {
     $id_hapus = (int)$_GET['id'];
@@ -257,7 +298,6 @@ elseif ($aksi == 'hapus_galeri_massal') {
     }
     header("Location: dashboard.php?msg=hapus_massal_sukses#galeri"); exit;
 }
-
     
 // ==============================================================================
 // 3. PROSES DOA

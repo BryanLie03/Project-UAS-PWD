@@ -6,8 +6,6 @@ include "koneksi.php";
 require_login();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_user = $_SESSION['id_user'];
     
     // Perbaikan: Gunakan 'tanggal_doa' (Sesuai dengan name di index.php)

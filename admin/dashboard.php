@@ -105,6 +105,25 @@ if (isset($youtube_data['items'])) {
 // Ambil data aktif dari tabel youtube
 $q_yt_aktif = mysqli_query($conn, "SELECT * FROM youtube ORDER BY id_youtube DESC LIMIT 1");
 $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_assoc($q_yt_aktif) : null;
+
+function generatePaginationArray($current_page, $total_pages) {
+    $pages = [];
+    if ($total_pages <= 5) {
+        for ($i = 1; $i <= $total_pages; $i++) {
+            $pages[] = $i;
+        }
+    } else {
+        if ($current_page <= 3) {
+            $pages = [1, 2, 3, 4, '...', $total_pages];
+        } elseif ($current_page > $total_pages - 3) {
+            $pages = [1, '...', $total_pages - 3, $total_pages - 2, $total_pages - 1, $total_pages];
+        } else {
+            $pages = [1, '...', $current_page - 1, $current_page, $current_page + 1, '...', $total_pages];
+        }
+    }
+    return $pages;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -150,14 +169,31 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
     <?php 
     $msg = $_GET['msg'] ?? '';
     if (!empty($msg)) : 
-      echo '<div class="alert-floating ' . (strpos($msg, 'err') !== false ? 'alert-danger-admin' : 'alert-success-admin') . '">';
-      echo (strpos($msg, 'err') !== false) ? '<i class="fa-solid fa-circle-exclamation"></i>' : '<i class="fa-solid fa-circle-check"></i>';
+      // Cek apakah pesan sukses biasa atau error
+      $is_error = (strpos($msg, 'err') !== false || (isset($_GET['gagal']) && $_GET['gagal'] > 0));
+      
+      echo '<div class="alert-floating ' . ($is_error ? 'alert-danger-admin' : 'alert-success-admin') . '">';
+      echo $is_error ? '<i class="fa-solid fa-circle-exclamation"></i>' : '<i class="fa-solid fa-circle-check"></i>';
       echo '<span>';
-      if ($msg == 'err_size') echo 'Gagal: Ukuran file foto maksimal 7 MB!';
+      
+      if ($msg == 'err_size') echo 'Gagal: Ukuran file foto maksimal 20 MB!';
       elseif ($msg == 'err_type') echo 'Gagal: Format file harus JPG, JPEG, atau PNG!';
+      elseif ($msg == 'err_limit_foto') echo 'Gagal: Maksimal upload 4 foto sekaligus!'; 
       elseif ($msg == 'sukses_batal_doa') echo 'Status doa dikembalikan ke Pending!';
       elseif ($msg == 'sukses_semua') echo 'Semua doa berhasil dikonfirmasi!';
       elseif ($msg == 'hapus_massal_sukses') echo 'Foto terpilih berhasil dihapus!';
+      
+      // PESAN BARU UNTUK MULTI UPLOAD
+      elseif ($msg == 'upload_multi') {
+          $sukses = (int)$_GET['sukses'];
+          $gagal = (int)$_GET['gagal'];
+          if ($gagal > 0) {
+              echo "Berhasil upload $sukses foto. Gagal: $gagal foto (Cek ukuran/format).";
+          } else {
+              echo "Sukses mengunggah $sukses foto ke Galeri!";
+          }
+      }
+      
       else echo 'Aksi berhasil diselesaikan!';
       echo '</span></div>';
     endif;
@@ -252,17 +288,25 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
 
       <?php if ($total_pages_doa > 1): ?>
         <div class="pagination">
-          <?php for ($i = 1; $i <= $total_pages_doa; $i++): ?>
-            <a href="dashboard.php?tab=<?= $tab_status ?>&search=<?= urlencode($search_query) ?>&page_doa=<?= $i ?>#data-doa" class="page-link <?= ($page_doa == $i) ? 'active' : '' ?>"><?= $i ?></a>
-          <?php endfor; ?>
+          <?php 
+          $pages_doa = generatePaginationArray($page_doa, $total_pages_doa);
+          foreach ($pages_doa as $p): 
+              if ($p === '...'): 
+          ?>
+              <span class="page-link dots">...</span>
+          <?php else: ?>
+              <a href="dashboard.php?tab=<?= $tab_status ?>&search=<?= urlencode($search_query) ?>&page_doa=<?= $p ?>#data-doa" class="page-link <?= ($page_doa == $p) ? 'active' : '' ?>"><?= $p ?></a>
+          <?php 
+              endif;
+          endforeach; 
+          ?>
         </div>
       <?php endif; ?>
-    </div>
 
     <!-- YOUTUBE DB -->
     <div class="card" id="video">
       <div class="card-header">
-          <h3><i class="fa-brands fa-youtube"></i> Manajemen You</h3>
+          <h3><i class="fa-brands fa-youtube"></i> Manajemen Youtube</h3>
       </div>
       <?php if ($yt_aktif) : ?>
         <div class="active-video-set">
@@ -351,12 +395,20 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
       
       <?php if ($total_pages_event > 1): ?>
         <div class="pagination">
-          <?php for ($i = 1; $i <= $total_pages_event; $i++): ?>
-            <a href="dashboard.php?page_event=<?= $i ?>#event" class="page-link <?= ($page_event == $i) ? 'active' : '' ?>"><?= $i ?></a>
-          <?php endfor; ?>
+          <?php 
+          $pages_event = generatePaginationArray($page_event, $total_pages_event);
+          foreach ($pages_event as $p): 
+              if ($p === '...'): 
+          ?>
+              <span class="page-link dots">...</span>
+          <?php else: ?>
+              <a href="dashboard.php?page_event=<?= $p ?>#event" class="page-link <?= ($page_event == $p) ? 'active' : '' ?>"><?= $p ?></a>
+          <?php 
+              endif;
+          endforeach; 
+          ?>
         </div>
       <?php endif; ?>
-    </div>
 
     <!-- TABEL GALERI -->
     <div class="card" id="galeri">
@@ -364,15 +416,30 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
           <h3><i class="fa-solid fa-images"></i> Manajemen Galeri Foto</h3>
           <div>
             <button class="btn btn-primary" onclick="bukaModalBasic('modalTambahGaleri')"><i class="fa-solid fa-upload"></i> Upload Foto</button>
-            <button class="btn btn-danger" onclick="prosesHapusMassal()"><i class="fa-solid fa-trash-can"></i> Hapus Terpilih</button>
+            
+            <!-- Tombol Mode Hapus -->
+            <button type="button" id="btnModeHapus" class="btn btn-danger" onclick="aktifkanModeHapus()">
+                <i class="fa-solid fa-trash"></i> Pilih Foto untuk Dihapus
+            </button>
+            
+            <!-- Tombol Batal Hapus (BARU) -->
+            <button type="button" id="btnBatalHapus" class="btn" style="display: none; background-color: #64748b;" onclick="batalkanModeHapus()">
+                <i class="fa-solid fa-xmark"></i> Batal
+            </button>
+
+            <!-- Tombol Eksekusi Hapus (Panggil JS, jangan gunakan tipe submit) -->
+            <button type="button" id="btnEksekusiHapus" class="btn btn-danger" style="display: none;" onclick="prosesHapusMassal()">
+                <i class="fa-solid fa-check"></i> Hapus Foto Terpilih
+            </button>
           </div>
       </div>
       
       <!-- Filter Galeri -->
-      <form method="GET" action="dashboard.php" style="margin-bottom: 20px; display:flex; gap:10px; align-items:center;">
-        <input type="hidden" name="tab" value="<?= htmlspecialchars($tab_status) ?>">
+      <div style="margin-bottom: 20px; display:flex; gap:10px; align-items:center;">
         <label style="font-weight:600; color:var(--secondary-color);">Filter Event:</label>
-        <select name="filter_galeri" onchange="this.form.submit()" style="width:300px; margin:0;">
+        
+        <!-- Menggunakan JavaScript untuk mempertahankan posisi #galeri dan halaman tabel lainnya -->
+        <select name="filter_galeri" onchange="window.location.href='dashboard.php?tab=<?= urlencode($tab_status) ?>&page_doa=<?= $page_doa ?>&page_event=<?= $page_event ?>&filter_galeri=' + this.value + '#galeri'" style="width:300px; margin:0;">
             <option value="all">-- Semua Event --</option>
             <?php
             if ($conn) {
@@ -384,13 +451,16 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
             }
             ?>
         </select>
-      </form>
+      </div>
 
       <div class="table-responsive">
         <form id="formGaleriMassal" action="sv_dashboard.php?aksi=hapus_galeri_massal" method="POST">
             <table>
               <tr>
-                <th width="5%" style="text-align:center;"><input type="checkbox" onclick="toggleCheckAll(this)" style="transform:scale(1.3); cursor:pointer;"></th>
+                <!-- Checkbox "Select All" yang awalnya disembunyikan -->
+                <th width="5%" style="text-align:center;">
+                    <input type="checkbox" id="chkSemua" onclick="toggleCheckAll(this)" style="transform:scale(1.3); cursor:pointer; display:none;">
+                </th>
                 <th width="15%">Preview</th>
                 <th>Nama Event</th>
                 <th width="20%">Diupload Oleh</th>
@@ -400,7 +470,8 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
                 <?php while ($row_g = mysqli_fetch_assoc($result_galeri)) : ?>
                 <tr>
                   <td style="text-align:center;">
-                    <input type="checkbox" name="id_galeri_hapus[]" value="<?= $row_g['id_gallery'] ?>" style="transform:scale(1.3); cursor:pointer;">
+                  <!-- Perbaikan Typo variabel dari $row_galeri menjadi $row_g -->
+                  <input type="checkbox" name="id_galeri_hapus[]" value="<?= $row_g['id_gallery'] ?>" class="chk-foto-galeri" style="transform:scale(1.3); cursor:pointer; display:none;">
                   </td>
                   <td><img src="../uploads/galeri/<?= htmlspecialchars($row_g['image_gallery']) ?>" class="img-preview"></td>
                   <td><strong><?= htmlspecialchars($row_g['event']) ?></strong></td>
@@ -421,13 +492,21 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
       </div>
 
       <?php if ($total_pages_galeri > 1): ?>
-        <div class="pagination">
-          <?php for ($i = 1; $i <= $total_pages_galeri; $i++): ?>
-            <a href="dashboard.php?filter_galeri=<?= $filter_galeri_event ?>&page_galeri=<?= $i ?>#galeri" class="page-link <?= ($page_galeri == $i) ? 'active' : '' ?>"><?= $i ?></a>
-          <?php endfor; ?>
+       <div class="pagination">
+          <?php 
+          $pages_galeri = generatePaginationArray($page_galeri, $total_pages_galeri);
+          foreach ($pages_galeri as $p): 
+              if ($p === '...'): 
+          ?>
+              <span class="page-link dots">...</span>
+          <?php else: ?>
+              <a href="dashboard.php?filter_galeri=<?= urlencode($filter_galeri_event) ?>&page_galeri=<?= $p ?>#galeri" class="page-link <?= ($page_galeri == $p) ? 'active' : '' ?>"><?= $p ?></a>
+          <?php 
+              endif;
+          endforeach; 
+          ?>
         </div>
       <?php endif; ?>
-    </div>
 
   </div> <!-- End Main Content -->
 
@@ -458,7 +537,7 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
     </div>
   </div>
 
-  <!-- 3. Modal Info Auto-save -->
+  <!-- 3. Modal Info Auto-save / Alert Custom -->
   <div id="infoModal" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-circle-info"></i> Informasi Sistem</h3>
@@ -480,7 +559,7 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
         <input type="date" name="tanggal_event" required>
         <label>Deskripsi Event:</label>
         <textarea name="deskripsi_event" rows="3" required></textarea>
-        <label>Gambar Event (Wajib JPG/PNG, Max 7MB):</label>
+        <label>Gambar Event (Wajib JPG/PNG, Max 20MB):</label>
         <input type="file" name="gambar_event" accept=".jpg, .jpeg, .png" required>
         <div class="modal-buttons">
           <button type="button" onclick="tutupModalBasic('modalTambahEvent')" class="btn btn-danger">Batal</button>
@@ -505,11 +584,12 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
             }
             ?>
         </select>
-        <label>File Foto (Wajib JPG/PNG, Max 7MB):</label>
-        <input type="file" name="foto" accept=".jpg, .jpeg, .png" required>
+        <label>File Foto (Maksimal 4 foto sekaligus. Max 20MB/file):</label>
+        <input type="file" name="foto[]" accept=".jpg, .jpeg, .png" multiple required onchange="cekLimitUpload(this)">
+        
         <div class="modal-buttons">
           <button type="button" onclick="tutupModalBasic('modalTambahGaleri')" class="btn btn-danger">Batal</button>
-          <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Semua</button>
         </div>
       </form>
     </div>
@@ -527,7 +607,7 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
         <input type="date" name="tanggal_event" id="edit_tanggal_event" required>
         <label>Deskripsi:</label>
         <textarea name="deskripsi_event" id="edit_deskripsi_event" rows="3" required></textarea>
-        <label style="color:#ef4444; font-size:0.9em;">Ganti Foto? (Opsional, Max 7MB):</label>
+        <label style="color:#ef4444; font-size:0.9em;">Ganti Foto? (Opsional, Max 20MB  ):</label>
         <input type="file" name="gambar_event" accept=".jpg, .jpeg, .png">
         <div class="modal-buttons">
           <button type="button" onclick="tutupModalBasic('modalEditEvent')" class="btn btn-danger">Batal</button>
@@ -552,7 +632,7 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
             }
             ?>
         </select>
-        <label style="color:#ef4444; font-size:0.9em;">Ganti Foto? (Opsional, Max 7MB):</label>
+        <label style="color:#ef4444; font-size:0.9em;">Ganti Foto? (Opsional, Max 20MB  ):</label>
         <input type="file" name="foto" accept=".jpg, .jpeg, .png">
         <div class="modal-buttons">
           <button type="button" onclick="tutupModalBasic('modalEditGaleri')" class="btn btn-danger">Batal</button>
@@ -562,11 +642,12 @@ $yt_aktif = ($q_yt_aktif && mysqli_num_rows($q_yt_aktif) > 0) ? mysqli_fetch_ass
     </div>
   </div>
 
-  <!-- 8. Modal Confirm Hapus Massal -->
+<!-- 8. Modal Confirm Hapus Massal -->
   <div id="confirmHapusMassalModal" class="modal-overlay">
     <div class="modal-box">
       <h3><i class="fa-solid fa-circle-question"></i> Konfirmasi Hapus Massal</h3>
-      <p>Anda yakin ingin menghapus SEMUA foto yang telah dicentang secara permanen?</p>
+      <!-- Tambahkan id="pesanHapusMassal" di bawah ini -->
+      <p id="pesanHapusMassal">Anda yakin ingin menghapus foto yang telah dicentang secara permanen?</p>
       <div class="modal-buttons">
         <button type="button" onclick="tutupModalBasic('confirmHapusMassalModal')" class="btn btn-primary">Batal</button>
         <button type="button" onclick="submitHapusMassal()" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Ya, Hapus Terpilih</button>
