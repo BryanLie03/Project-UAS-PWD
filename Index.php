@@ -1,6 +1,22 @@
 <?php
-session_start(); 
 include "header.php";
+
+// 1. Inisialisasi variabel agar tidak error
+$data_video_cms = null;
+
+// 2. Ambil data video terbaru dari database MySQL
+$query = mysqli_query($conn, "SELECT Title, link FROM youtube ORDER BY id_youtube DESC LIMIT 1");
+
+if ($query && mysqli_num_rows($query) > 0) {
+    $row = mysqli_fetch_assoc($query);
+    
+    // 3. Mapping data dari database ke variabel yang dicari oleh HTML Anda
+    // Kita menyesuaikan key-nya agar sesuai dengan kode HTML section youtube Anda
+    $data_video_cms = [
+        'judul'    => $row['Title'],
+        'id_video' => $row['link']
+    ];
+}
 ?>
 
 <main>
@@ -251,55 +267,74 @@ include "header.php";
     <div class="kegiatan-container">
       <h2 class="animasi-muncul">Kegiatan-Kegiatan di Gereja Yesus Sejati</h2>
 
-      <div class="image-kegiatan animasi-muncul">
-        <img src="Assets/img/KPI.jpeg" alt="KPI">  
-        <div class="text-kegiatan">
-          <h3>Kebaktian Penyegaran Iman (KPI)</h3>
-          <p>
-            Kebaktian Penyegaran iman ini dilaksanakan pada hari sabtu sore tanggal 09-08-2025 bersama-sama dengan para jemaat dan simpatisan yang dibawakan oleh Pdt. Silang Ong, dengan tema Anugerah Terindah.
-          </p>
-        </div>
-      </div>
-    
-      <div class="image-kegiatan reverse animasi-muncul">
-        <img src="Assets/img/POT.jpeg" alt="Orang Tua"> 
-        <div class="text-kegiatan">
-          <h3>Kebaktian Penghormatan Orang Tua</h3>
-          <p>
-            Kebaktian Penghormatan Orang Tua ini dilaksanakan pada hari sabtu sore tanggal 21-02-2026, yang dibawakan oleh Pdt. Yakobus Harryo. Para saudara dan saudari tua ini diberkati oleh Tuhan dengan usia yang panjang (dari 65 tahun hingga leih dari 65 tahun)  
-          </p>
-        </div>
-      </div>
+      <?php
+      // 1. Memanggil data dari database tabel 'events', diurutkan dari yang terbaru
+      // Wajib gunakan tanda ` (backtick) untuk kata show
+      $query_kegiatan = mysqli_query($conn, "SELECT * FROM events WHERE `show` = 1 ORDER BY date DESC LIMIT 5");
+      $no = 0; // Variabel penghitung urutan
 
-      <div class="image-kegiatan animasi-muncul">
-        <img src="Assets/img/Tutup-Tahun.jpeg" alt="Tutup Tahun">  
-        <div class="text-kegiatan">
-          <h3>Kebaktian Tutup Tahun 2025</h3>
-          <p>
-            Kebaktian tutup tahun ini dilaksanakan pada hari rabu malam tanggal 31-12-2025 yang dibawakan oleh Pdt. Yakobus Harryo. Kebaktian ini bertujuan untuk mengungkapkan rasa syukur atas berakhirnya tahun 2025 kepada Tuhan. 
-          </p>
-        </div>
-      </div>
+      // 2. Mengecek apakah ada data di database
+      if ($query_kegiatan && mysqli_num_rows($query_kegiatan) > 0) :
+          while ($row = mysqli_fetch_assoc($query_kegiatan)) :
+              
+              // 3. Logika Kiri-Kanan: Jika $no ganjil (1, 3, 5), tambahkan class 'reverse'
+              $class_reverse = ($no % 2 != 0) ? ' reverse' : '';
+      ?>
+      
+            <div class="image-kegiatan<?= $class_reverse ?> animasi-muncul">
+              
+              <?php 
+                // Memastikan gambar ada. Jika admin lupa upload gambar, hindari gambar error.
+                $gambar_path = !empty($row['image']) ? "uploads/event/" . htmlspecialchars($row['image']) : "Assets/img/KPI.jpeg"; 
+              ?>
+              <img src="<?= $gambar_path ?>" alt="<?= htmlspecialchars($row['event']) ?>">  
+              
+              <div class="text-kegiatan">
+                <h3><?= htmlspecialchars($row['event']) ?></h3>
+                <p>
+                  <?= nl2br(htmlspecialchars($row['description'])) ?>
+                </p>
+              </div>
+            </div>
+
+      <?php
+              $no++; // Tambahkan angka penghitung setiap kali selesai mencetak 1 kartu
+          endwhile;
+      else :
+      ?>
+          <div style="text-align: center; padding: 40px 0;">
+            <p style="color: #64748b; font-style: italic;">Belum ada jadwal kegiatan yang ditambahkan saat ini.</p>
+          </div>
+      <?php endif; ?>
+
     </div>
-  </section>      
+  </section>
 
   <section class="youtube">
     <div class="youtube-container">
       <div class="youtube-text">
         <h4>Saksikan dan Dengarkan</h4>
-        <h2>Livestream Khotbah</h2>
+        
+        <h2><?= ($data_video_cms && !empty($data_video_cms['judul'])) ? htmlspecialchars($data_video_cms['judul']) : 'Livestream Khotbah' ?></h2>
+        
         <p>Mari bertumbuh didalam Kristus melalui channel youtube Gereja Yesus Sejati</p>
         <a href="https://www.youtube.com/@GYSPontianak" target="_blank" class="btn-klik">Klik di sini</a>
       </div>
 
       <div class="video-youtube">
-        <iframe 
-          src="https://www.youtube.com/embed/BwEn3p4WFhc?si=7hsY962B53MF5Jkn" 
-          title="YouTube video player" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          allowfullscreen> 
-        </iframe>
+        <?php if ($data_video_cms && !empty($data_video_cms['id_video'])) : ?>
+          <iframe 
+            src="https://www.youtube.com/embed/<?= htmlspecialchars($data_video_cms['id_video']) ?>" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen> 
+          </iframe>
+        <?php else : ?>
+          <div style="background: #0f172a; width: 100%; height: 100%; min-height: 250px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+            <p style="color: #cbd5e1; font-style: italic;">Video belum diatur oleh Administrator.</p>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
@@ -404,9 +439,8 @@ include "header.php";
 
       <form id="doa-form" class="doa-form" action="sv_doa.php" method="POST" novalidate>
           <div class="input-group">
-            <label for="tanggal">Tanggal</label>
-            <input type="date" id="tanggal" name="tanggal" required />
-            <span class="error-msg" id="error-tanggal">Tanggal tidak boleh kosong!</span>
+            <label for="tanggal_doa">Tanggal</label>
+            <input type="date" id="tanggal_doa" name="tanggal_doa" min="<?= date('Y-m-d') ?>" max="<?= date('Y-m-d', strtotime('+7 days')) ?>" required>
           </div>
 
         <div class="input-group">

@@ -47,12 +47,6 @@ if (!isset($_SESSION['status']) && isset($_COOKIE['user_id']) && isset($_COOKIE[
     $stmt->close();
 }
 
-// Mencegah serangan Session Fixation
-if (!isset($_SESSION['initiated'])) {
-    session_regenerate_id(true);
-    $_SESSION['initiated'] = true;
-}
-
 // ==========================================
 // 3. KONTROL TIMEOUT KETIDAKAKTIFAN
 // ==========================================

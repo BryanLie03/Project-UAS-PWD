@@ -47,9 +47,7 @@ prevent_login_bypass("index.php");
                 }
             }
         ?>
-
-        <form action="sv_register.php" method="POST">
-
+        
         <form action="sv_register.php" method="POST">
         <div class="input-group">
             <label class="label-login" for="email">Email</label>

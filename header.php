@@ -1,4 +1,5 @@
 <?php
+include "security.php";
 include "koneksi.php";
 ?>
 <!doctype html>
@@ -10,7 +11,6 @@ include "koneksi.php";
   
   <link rel="stylesheet" href="CSS/style.css?v=<?php echo time(); ?>" />
   
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script> 
   <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> 
 </head>

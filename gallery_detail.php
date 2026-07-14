@@ -1,144 +1,44 @@
 <?php
 include 'header.php';
 
-// ===== DATA GALERI (edit manual di sini kalau ada foto baru) =====
-$data_galeri = [
-    'kpi' => [
-        'judul' => 'Kebaktian Penyegaran Iman',
-        'foto'  => [
-            'assets/img/KPI/SKKphotobersama1.jpg',
-            'assets/img/KPI/SKKphotobersama.jpg',
-            'assets/img/KPI/SKKphotobersama2.jpg',
-            'assets/img/KPI/photobooth.jpg',
-            'assets/img/KPI/photobooth1.jpg',
-            'assets/img/KPI/photobooth2.jpg',
-            'assets/img/KPI/photobooth3.jpg',
-            'assets/img/KPI/photobooth4.jpg',
-            'assets/img/KPI/photobooth5.jpg',
-            'assets/img/KPI/photobooth6.jpg',
-            'assets/img/KPI/photobooth7.jpg',
-            'assets/img/KPI/photobooth8.jpg',
-            'assets/img/KPI/photobooth9.jpg',
-            'assets/img/KPI/Sabatpagi.jpg',
-            'assets/img/KPI/Sabatpagi1.png',
-            'assets/img/KPI/Sabatpagi2.png',
-            'assets/img/KPI/Sabatpagi3.png',
-            'assets/img/KPI/Sabatpagi4.png',
-            'assets/img/KPI/Sabatpagi5.png',
-            'assets/img/KPI/SKK.jpg',
-            'assets/img/KPI/SKK1.jpg',
-            'assets/img/KPI/SKK2.jpg',
-            'assets/img/KPI/SKK3.jpg',
-            'assets/img/KPI/SKKpadus.jpg',
-            'assets/img/KPI/SKKpadus1.jpg',
-        ]
-    ],
-    'kkr' => [
-        'judul' => 'Kebaktian Kebangunan Rohani',
-        'foto'  => [
-            'assets/img/KKR/fotobersamakkr.jpg',
-            'assets/img/KKR/fotobersama1.jpg',
-            'assets/img/KKR/fotobersama2.JPG',
-            'assets/img/KKR/fotobersama3.jpg',
-            'assets/img/KKR/fotobersama4.jpg',
-            'assets/img/KKR/fotobersama5.jpg',
-            'assets/img/KKR/fotobersama6.jpg',
-            'assets/img/KKR/fotobersama7.jpg',
-            'assets/img/KKR/jemaat.jpg',
-            'assets/img/KKR/kebersamaan.jpg',
-            'assets/img/KKR/khotbah.jpg',
-            'assets/img/KKR/pemuda1.jpg',
-            'assets/img/KKR/tv.jpg',
-            'assets/img/KKR/doa.jpg',
-            'assets/img/KKR/doa1.jpg',
-            'assets/img/KKR/doa2.jpg',
-            'assets/img/KKR/doa3.jpg',
-        ]
-    ],
-    'bi' => [
-        'judul' => 'Bina Iman',
-        'foto'  => [
-            'assets/img/BI/templatebiman.png',
-            'assets/img/BI/sesi.jpg',
-            'assets/img/BI/sesi1.jpg',
-            'assets/img/BI/presenkelompok.jpg',
-            'assets/img/BI/presenkelompok1.jpg',
-            'assets/img/BI/presenkelompok2.jpg',
-            'assets/img/BI/presenkelompok3.jpg',
-            'assets/img/BI/perkenalan.jpg',
-            'assets/img/BI/perkenalan1.jpg',
-            'assets/img/BI/juara1.jpg',
-            'assets/img/BI/juara2.jpg',
-            'assets/img/BI/juara3.jpg',
-            'assets/img/BI/games.jpg',
-            'assets/img/BI/games2.jpg',
-            'assets/img/BI/fotoutama.jpeg',
-            'assets/img/BI/diskusi.jpg',
-            'assets/img/BI/CFD.jpg',
-            'assets/img/BI/CFD1.jpg',
-            'assets/img/BI/bbq.jpg',
-            'assets/img/BI/bbq1.jpg',
-            'assets/img/BI/bbq2.jpg',
-            'assets/img/BI/bbq3.jpg',
-        ]
-    ],
-    'panti' => [
-        'judul' => 'Kunjungan Panti Asuhan',
-        'foto'  => [
-            'assets/img/panti/fotobersama2.jpg',
-            'assets/img/panti/fotobersama.jpg',
-            'assets/img/panti/fotobersama1.jpg',
-            'assets/img/panti/fotobersama3.jpg',
-            'assets/img/panti/hadiah.jpg',
-            'assets/img/panti/hadiah1.jpg',
-            'assets/img/panti/hadiah2.jpg',
-            'assets/img/panti/hadiah3.jpg',
-            'assets/img/panti/hadiah4.jpg',
-            'assets/img/panti/hadiah5.jpg',
-            'assets/img/panti/jjb.jpg',
-            'assets/img/panti/jjb1.jpg',
-            'assets/img/panti/souvenir.jpg',
-        ]
-    ],
-    'donor' => [
-        'judul' => 'Donor Darah',
-        'foto'  => [
-            'assets/img/DD/SKK1.jpg',
-            'assets/img/DD/SKK.jpg',
-            'assets/img/DD/souvenir.jpg',
-            'assets/img/DD/souvenir1.png',
-            'assets/img/DD/souvenir2.png',
-            'assets/img/DD/panitia.jpg',
-            'assets/img/DD/panitia1.jpg',
-            'assets/img/DD/peserta1.jpg',
-            'assets/img/DD/peserta.jpg',
-            'assets/img/DD/kantong.jpg',
-            'assets/img/DD/donor.jpg',
-            'assets/img/DD/donor1.jpg',
-            'assets/img/DD/donor1.png',
-        ]
-    ],
-];
+$id_event = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Ambil kategori dari URL
-$kategori = $_GET['kategori'] ?? '';
-
-// Kalau kategori tidak ada di data, kembali ke gallery.php
-if (!isset($data_galeri[$kategori])) {
-    header('Location: gallery.php');
+// Validasi apakah event tersebut ada
+$q_event = mysqli_query($conn, "SELECT event FROM events WHERE id_event = $id_event");
+if (!$q_event || mysqli_num_rows($q_event) == 0) {
+    // Jika user iseng memasukkan ID ngawur di URL, kembalikan ke galeri
+    header("Location: gallery.php");
     exit;
 }
+$nama_event = mysqli_fetch_assoc($q_event)['event'];
 
-$judul_halaman = $data_galeri[$kategori]['judul'];
-$daftar_foto   = $data_galeri[$kategori]['foto'];
+// Pengaturan Pagination Halaman Detail
+$limit = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Menghitung total foto di event ini
+$q_total = mysqli_query($conn, "SELECT COUNT(*) as jml FROM galleries WHERE id_event = $id_event");
+$total_data = mysqli_fetch_assoc($q_total)['jml'];
+$total_pages = ceil($total_data / $limit);
+
+// Mengambil 10 foto untuk halaman yang sedang aktif
+$q_foto = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_event = $id_event ORDER BY id_gallery DESC LIMIT $limit OFFSET $offset");
+
+// Cover hero dinamis (Mengambil gambar pertama dari event ini untuk latar atas)
+$cover_hero = "Assets/img/gereja.jpeg"; // Fallback awal
+$q_cover = mysqli_query($conn, "SELECT image_gallery FROM galleries WHERE id_event = $id_event ORDER BY id_gallery ASC LIMIT 1");
+if ($row_cover = mysqli_fetch_assoc($q_cover)) {
+    $cover_hero = "uploads/galeri/" . $row_cover['image_gallery'];
+}
 ?>
 
 <section class="hero-galeri">
-    <div class="slide active" style="background-image: url('<?= htmlspecialchars($daftar_foto[0]) ?>');"></div>
+    <div class="slide active" style="background-image: url('<?= htmlspecialchars($cover_hero) ?>');"></div>
 
     <div class="hero-overlay">
-        <h1><?= htmlspecialchars($judul_halaman) ?></h1>
-        <p>-Dokumentasi Kegiatan Gereja-</p>
+        <h1><?= htmlspecialchars($nama_event) ?></h1>
+        <p>-Dokumentasi Event Gereja-</p>
     </div>
 </section>
 
@@ -148,16 +48,32 @@ $daftar_foto   = $data_galeri[$kategori]['foto'];
         <span> > </span>
         <a href="gallery.php">Galeri</a>
         <span> > </span>
-        <span class="active"><?= htmlspecialchars($judul_halaman) ?></span>
+        <span class="active"><?= htmlspecialchars($nama_event) ?></span>
     </div>
 
+    <!-- Grid Foto Detail -->
     <div class="foto-grid">
-        <?php foreach ($daftar_foto as $foto): ?>
-            <div class="foto-item">
-                <img src="<?= htmlspecialchars($foto) ?>" alt="<?= htmlspecialchars($judul_halaman) ?>">
+        <?php if (mysqli_num_rows($q_foto) > 0): ?>
+            <?php while ($foto = mysqli_fetch_assoc($q_foto)): ?>
+                <div class="foto-item">
+                    <img src="uploads/galeri/<?= htmlspecialchars($foto['image_gallery']) ?>" alt="Dokumentasi <?= htmlspecialchars($nama_event) ?>">
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #64748b;">
+                <p>Tidak ada foto yang ditemukan.</p>
             </div>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </div>
+
+    <!-- Pagination Detail -->
+    <?php if ($total_pages > 1): ?>
+        <div class="pagination-frontend" style="margin-top: 40px;">
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="gallery_detail.php?id=<?= $id_event ?>&page=<?= $i ?>" class="<?= ($page == $i) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
+    <?php endif; ?>
 </section>
 
 <?php include 'footer.php'; ?>
