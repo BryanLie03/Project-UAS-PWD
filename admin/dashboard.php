@@ -76,7 +76,7 @@ if ($conn) {
     ");
 }
 
-$api_key = 'AIzaSyBpSTSnnydglOfCEMO43doRrzDf-IMB62Y';
+$api_key = 'AIzaSyBaLQpQTPcXZR-SL_Hvgpoe8CuNwHUzFd4';
 $channel_id = 'UCxlTgEU_BloNnEXDdNfv-Dg'; 
 
 $api_url = "https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId={$channel_id}&maxResults=5&key={$api_key}";
